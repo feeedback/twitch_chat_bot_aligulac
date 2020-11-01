@@ -70,7 +70,7 @@ const botRun = async (
             if (newChannel === null) {
                 return;
             }
-            await connectNewChannel(newChannel);
+            await connectNewChannel(client, newChannel);
         }
     });
 };
