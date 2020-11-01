@@ -10,6 +10,7 @@
     "license": "GPL-2.0",
     "dependencies": {
         "axios": "^0.21.0",
+        "dayjs": "^1.9.4",
         "dotenv": "^8.2.0",
         "jsdom": "^16.4.0",
         "tmi.js": "^1.5.0"
