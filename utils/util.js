@@ -1,4 +1,4 @@
-const dayjs = require('dayjs');
+// const dayjs = require('dayjs');
 
 const recognizeCommandFromMessageText = (message) => {
     const lowerCaseMessage = message.toLowerCase();
@@ -19,8 +19,8 @@ const recognizeCommandFromMessageText = (message) => {
 };
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const now = () => dayjs().format('h:mm:ss');
-const nowMs = () => dayjs().format('HH:mm:ss,SSS');
+// const now = () => dayjs().format('h:mm:ss');
+// const nowMs = () => dayjs().format('HH:mm:ss,SSS');
 
 const createQueueRequest = (interval) => {
     const queue = [];
@@ -54,6 +54,6 @@ module.exports = {
     channelFormat,
     sleep,
     createQueueRequest,
-    now,
-    nowMs,
+    // now,
+    // nowMs,
 };

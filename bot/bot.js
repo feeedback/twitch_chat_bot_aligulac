@@ -1,17 +1,17 @@
-const { recognizeCommandFromMessageText, channelFormat, nowMs } = require('../utils/util');
+const { recognizeCommandFromMessageText, channelFormat } = require('../utils/util');
 
 const connectNewChannel = async (client, channel) => {
     const channelF = channelFormat(channel);
 
     if (client.channels.includes(channelF)) {
-        console.log(nowMs, 'Ничего не делаю. Этот', channelF, 'канал уже подключён');
+        console.log('Ничего не делаю. Этот', channelF, 'канал уже подключён');
         return;
     }
     client.channels.push(channelF);
 
     try {
         await client.join(channelF);
-        console.log(nowMs, 'Новый канал', channelF, 'подключён!');
+        console.log('Новый канал', channelF, 'подключён!');
     } catch (error) {
         client.log.error(error);
     }
@@ -26,10 +26,10 @@ const botRun = async (
     isQueueRunning
 ) => {
     await client.connect();
-    console.log(`${nowMs()} twitch_chat_bot_aligulac START`);
+    console.log(`twitch_chat_bot_aligulac START`);
 
     client.on('message', async (channel, tags, message, self) => {
-        // console.log(`${nowMs()} ${message}`);
+        // console.log(`${message}`);
         // Ignore echoed messages.
         if (self || !message.startsWith('!')) {
             return;
@@ -41,7 +41,7 @@ const botRun = async (
             const [player1Name = null, player2Name = null] = args;
 
             console.log(
-                `${nowMs()} request received by @${tags.username}: ${player1Name} vs ${player2Name}`
+                `request received by @${tags.username}: ${player1Name} vs ${player2Name}`
             );
             if (player1Name === null || player2Name === null) {
                 return;
@@ -50,13 +50,13 @@ const botRun = async (
             queue.push({ name1: player1Name, name2: player2Name });
 
             const requestFn = async ({ name1, name2 }) => {
-                console.log(`${nowMs()} request DOING by @${tags.username}: ${name1} vs ${name2}`);
+                console.log(`request DOING by @${tags.username}: ${name1} vs ${name2}`);
                 const predictionStr = await getAligulacPrediction(name1, name2);
                 if (!predictionStr) {
                     return;
                 }
 
-                console.log(`${nowMs()} response TO by @${tags.username}: ${predictionStr}`);
+                console.log(`response TO by @${tags.username}: ${predictionStr}`);
                 client.say(channel, `@${tags.username} ${predictionStr}`);
             };
 
