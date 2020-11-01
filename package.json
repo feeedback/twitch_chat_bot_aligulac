@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "localStart": "node index.js",
-        "start": "node index.js & heroku ps:scale web=0 worker=1",
+        "start": "node index.js",
+        "startHeroku": "heroku ps:scale web=0 worker=1",
         "logsHeroku": "heroku logs -t",
         "statusHeroku": "heroku ps",
         "stopHeroku": "heroku ps:scale web=0 worker=0"

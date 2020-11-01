@@ -17,9 +17,9 @@ const clientTmiSettings = {
         // my
         'risok',
         // ru
-        // 'sc2mc_ru',
+        'sc2mc_ru',
         // // ru community
-        // '3dclanru',
+        '3dclanru',
         // 'alex007sc2',
         // // 'starladder_sc2_ru', // inactive stream
         // // ru speaking progamers
@@ -34,14 +34,14 @@ const clientTmiSettings = {
         // 'fallengersc2',
         // // en
         // 'starcraft',
-        // 'esl_sc2',
-        // 'esl_sc2b',
+        'esl_sc2',
+        'esl_sc2b',
         // // 'wesg_sc2', // inactive stream
         // // en & other community
-        // 'wardiii',
-        // 'indystarcraft',
-        // 'taketv',
-        // 'ogamingsc2',
+        'wardiii',
+        'indystarcraft',
+        'taketv',
+        'ogamingsc2',
         // 'twitchplayssc',
         // 'wintergaming',
         // // en & other progamers
