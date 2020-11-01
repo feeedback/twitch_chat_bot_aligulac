@@ -4,7 +4,11 @@
     "description": "Twitch чат-бот для использования сервиса Aligulac (статистика и предсказание исхода противостояний киберспортсменов по Starcraft 2)",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js"
+        "localStart": "node index.js",
+        "start": "node index.js & heroku ps:scale web=0 worker=1",
+        "logsHeroku": "heroku logs -t",
+        "statusHeroku": "heroku ps",
+        "stopHeroku": "heroku ps:scale web=0 worker=0"
     },
     "author": "Alexander R. (https://risok.now.sh)",
     "license": "GPL-2.0",

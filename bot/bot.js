@@ -21,12 +21,24 @@ const botRun = async (
     client,
     getAligulacPrediction,
     COMMAND_CHECK_FN,
+    isAdsBotWhenJoinChannel,
+    AdsBotMessage,
     queue,
     doRequest,
     isQueueRunning
 ) => {
     await client.connect();
     console.log(`twitch_chat_bot_aligulac START`);
+
+    client.on('join', async (channel, username, self) => {
+        if (!self) {
+            return;
+        }
+        if (isAdsBotWhenJoinChannel) {
+            console.log(`JOIN #${channel}. Пишу о боте в чат`);
+            client.say(channel, `${AdsBotMessage}`);
+        }
+    });
 
     client.on('message', async (channel, tags, message, self) => {
         // console.log(`${message}`);
@@ -40,9 +52,7 @@ const botRun = async (
             // aligulac
             const [player1Name = null, player2Name = null] = args;
 
-            console.log(
-                `request received by @${tags.username}: ${player1Name} vs ${player2Name}`
-            );
+            console.log(`request received by @${tags.username}: ${player1Name} vs ${player2Name}`);
             if (player1Name === null || player2Name === null) {
                 return;
             }
