@@ -53,7 +53,7 @@ const botRun = async (
             const [player1Name = null, player2Name = null] = args;
 
             console.log(
-                `${channel} request received by @${tags.username}: ${player1Name} vs ${player2Name}`
+                `${channel} by @${tags.username} request received: ${player1Name} vs ${player2Name}`
             );
             if (player1Name === null || player2Name === null) {
                 return;
@@ -62,13 +62,17 @@ const botRun = async (
             queue.push({ name1: player1Name, name2: player2Name });
 
             const requestFn = async ({ name1, name2 }) => {
-                console.log(`${channel} request DOING by @${tags.username}: ${name1} vs ${name2}`);
+                console.log(
+                    `${channel} @${tags.username} request DOING : ${name1} vs ${name2}`
+                );
                 const predictionStr = await getAligulacPrediction(name1, name2);
                 if (!predictionStr) {
                     return;
                 }
 
-                console.log(`${channel} response TO by @${tags.username}: ${predictionStr}`);
+                console.log(
+                    `${channel} to @${tags.username} response: ${predictionStr}`
+                );
                 client.say(channel, `@${tags.username} ${predictionStr}`);
             };
 
