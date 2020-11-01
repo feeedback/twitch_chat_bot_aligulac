@@ -65,7 +65,7 @@ const settings = {
     },
     INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT: 5050,
     MEMORY_CACHE_LENGTH: 1000,
-    isAdsBotWhenJoinChannel: true,
+    isAdsBotWhenJoinChannel: false,
     AdsBotMessage: `Hi, I'm prediction bot. Use me: !alig[ulac] name1 name2 (only progamers)`,
 };
 module.exports = settings;
