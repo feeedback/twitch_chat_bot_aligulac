@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const clientTmiSettings = {
     options: {
-        debug: true,
+        debug: process.env.DEBUG_TMI,
         // level: 'info'
     },
     connection: {
