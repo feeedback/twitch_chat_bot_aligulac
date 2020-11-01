@@ -6,6 +6,7 @@
     "scripts": {
         "localStart": "node index.js",
         "start": "node index.js",
+        "pushHeroku": "git push heroku main",
         "startHeroku": "heroku ps:scale web=0 worker=1",
         "logsHeroku": "heroku logs -t",
         "statusHeroku": "heroku ps",
