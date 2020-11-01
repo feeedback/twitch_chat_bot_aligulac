@@ -1,0 +1,44 @@
+Регистрация токена аккаунта бота - https://twitchapps.com/tmi
+Здесь можно потом отключить (этот токен) подключение аккаунта - https://www.twitch.tv/settings/connections
+
+github либа с api для твич бота - https://github.com/tmijs/tmi.js
+github шаблон твич бота (такой себе, средненький) - https://github.com/qWici/twitch-bot-boilerplate
+tmi.js доки по коммандам, там же выше в папке остальные https://github.com/tmijs/docs/blob/gh-pages/_posts/v1.4.2/2019-03-03-Commands.md
+
+
+TODO: Сделать поиск всех каналов с активными стримами starcraft 2 и подключение к ним
+(как у mmr бота сделано, надо узнать)
+https://api.twitch.tv/helix/streams?game_id=490422     490422 game_id starcraft 2
+
+Для юзания апи нужна авторизация, как получить пока не до конца понятно.
+Можно ли с тем токеном, что уже есть на чат бота.
+
+https://dev.twitch.tv/console/extensions
+https://dev.twitch.tv/docs/authentication#getting-tokens
+
+TODO: Делать ли ответ в чат, что не найден ник или неправильный формат запроса?
+Пока думаю - нет, т.к. в чатах есть ограничение на количество сообщений, могут дать мут или бан
+Надо или переодически отвечать такой информацией,
+ или просто её куда-то периодически писать
+ (но тут надо аккуратно, чтоб не забанили за рекламу бота)
+
+ Что-то типа: 
+Hello, I'm Aligulaс prediction bot. Use me: !alig[ulac] name1 name2.
+Searches only for progamers. If inactive, statistics will lie.
+TODO: периодически (раз 1  час) отправлять инфу во все каналы (и при джойне на новый сразу (в функции джойна))
+
+// лишняя инфа?
+Only English letters, numbers, -, _. At least 2 chars.
+Better type nicknames starting from the 1st char (but not always necessarily to end). Ex: Nee - OK, Neb, eeb - NOT OK
+
+// описание канала
+Aliguilac prediction bot by @risok — !alig[ulac] name1 name2 (или !алиг[улак])
+
+TODO: добавить нормальный кэш со временем жизни запроса и постоянным хранением в на облаке или диске
+// данные в кеше не имеют времени жизни, постоянно живут, пока в памяти находится
+
+// для aligulac_api:
+// cache должен иметь 4 команды: .isHas(key), .getItem(key), setItem(key, value), .renewItem(key);
+// setItem - автоматически проверяет на заполненность, и добавляет вместо самого старого.
+// renewItem - удаляет со старого места и добавляет последним.
+// можно написать обёртку для другого вида кэша, например, базы данных, в облаке, или на диске
