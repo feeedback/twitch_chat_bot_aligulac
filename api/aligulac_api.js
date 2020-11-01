@@ -15,7 +15,7 @@ const Aligulac = (cache) => {
         }
 
         const response = await requestFn(key);
-        const ItemValue = await getDataFn(response);
+        const ItemValue = await getDataFn(response, key);
 
         cache.setItem(keyToCache, ItemValue);
         return ItemValue;
@@ -27,13 +27,16 @@ const Aligulac = (cache) => {
     const apiAligulacGetPredictionByIds = (player1Id, player2Id) =>
         `http://aligulac.com/inference/match/?bo=1&ps=${player1Id}%2C${player2Id}`;
 
-    const getPlayerIdFromData = (data) => {
+    const getPlayerIdFromData = (data, queryPlayerName) => {
         try {
             const { players } = data;
             if (players.length === 0) {
                 return null;
             }
-
+            const exactMatch = players.find(({ tag }) => tag.toLowerCase() === queryPlayerName);
+            if (exactMatch) {
+                return exactMatch.id;
+            }
             return players[0].id;
         } catch (error) {
             console.log(`ERROR: getPlayerIdFromData => ${error}`);
@@ -96,7 +99,7 @@ const Aligulac = (cache) => {
             const p1Id = await getFromCache(
                 p1Name,
                 async (nameP1) => axios.get(apiAligulacGetIdByName(nameP1)),
-                (responseJson) => getPlayerIdFromData(responseJson.data)
+                (responseJson, nameP1) => getPlayerIdFromData(responseJson.data, nameP1)
             );
             if (p1Id === null) {
                 console.log(`EXIT => Не найден игрок: "${p1Name}"`);
@@ -106,7 +109,7 @@ const Aligulac = (cache) => {
             const p2Id = await getFromCache(
                 p2Name,
                 async (nameP2) => axios.get(apiAligulacGetIdByName(nameP2)),
-                (responseJson) => getPlayerIdFromData(responseJson.data)
+                (responseJson, nameP2) => getPlayerIdFromData(responseJson.data, nameP2)
             );
             if (p2Id === null) {
                 console.log(`EXIT => Не найден игрок: "${p2Name}"`);
