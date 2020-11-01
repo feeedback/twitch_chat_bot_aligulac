@@ -1,13 +1,13 @@
 {
     "name": "aligulac_bot",
     "version": "1.0.0",
-    "description": "",
+    "description": "Twitch чат-бот для использования сервиса Aligulac (статистика и предсказание исхода противостояний киберспортсменов по Starcraft 2)",
     "main": "index.js",
     "scripts": {
         "start": "node index.js"
     },
-    "author": "",
-    "license": "ISC",
+    "author": "Alexander R. (https://risok.now.sh)",
+    "license": "GPL-2.0",
     "dependencies": {
         "axios": "^0.21.0",
         "dotenv": "^8.2.0",
@@ -15,5 +15,16 @@
     },
     "devDependencies": {
         "@types/tmi.js": "^1.4.2"
-    }
+    },
+    "engines": {
+        "node": "14.x"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/feeedback/twitch_chat_bot_aligulac.git"
+    },
+    "bugs": {
+        "url": "https://github.com/feeedback/twitch_chat_bot_aligulac/issues"
+    },
+    "homepage": "https://github.com/feeedback/twitch_chat_bot_aligulac#readme"
 }
