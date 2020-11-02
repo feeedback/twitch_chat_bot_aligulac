@@ -16,6 +16,21 @@ const connectNewChannel = async (client, channel) => {
         client.log.error(error);
     }
 };
+const createRequestFn = (clientSay, _getAligulacPrediction) => async ({
+    _channel,
+    _username,
+    name1,
+    name2,
+}) => {
+    console.log(`${_channel} @${_username} request DOING : ${name1} vs ${name2}`);
+    const predictionStr = await _getAligulacPrediction(name1, name2);
+    if (!predictionStr) {
+        return;
+    }
+
+    console.log(`${_channel} to @${_username} response: ${predictionStr}`);
+    clientSay(_channel, `@${_username} ${predictionStr}`);
+};
 
 const botRun = async (
     client,
@@ -29,6 +44,8 @@ const botRun = async (
 ) => {
     await client.connect();
     console.log(`twitch_chat_bot_aligulac START`);
+
+    const requestFn = createRequestFn(client.say, getAligulacPrediction);
 
     client.on('join', async (channel, username, self) => {
         if (!self) {
@@ -59,23 +76,12 @@ const botRun = async (
                 return;
             }
 
-            queue.push({ name1: player1Name, name2: player2Name });
-
-            const requestFn = async ({ name1, name2 }) => {
-                console.log(
-                    `${channel} @${tags.username} request DOING : ${name1} vs ${name2}`
-                );
-                const predictionStr = await getAligulacPrediction(name1, name2);
-                if (!predictionStr) {
-                    return;
-                }
-
-                console.log(
-                    `${channel} to @${tags.username} response: ${predictionStr}`
-                );
-                client.say(channel, `@${tags.username} ${predictionStr}`);
-            };
-
+            queue.push({
+                _channel: channel,
+                _username: tags.username,
+                name1: player1Name,
+                name2: player2Name,
+            });
             if (!isQueueRunning) {
                 doRequest(requestFn);
             }
