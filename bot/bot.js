@@ -28,13 +28,17 @@ const createRequestFn = (clientSay, _getAligulacPrediction) => async ({
     name2,
 }) => {
     console.log(`${_channel} @${_username} request DOING : ${name1} vs ${name2}`);
-    const predictionStr = await _getAligulacPrediction(name1, name2);
-    if (!predictionStr) {
-        return;
-    }
+    try {
+        const predictionStr = await _getAligulacPrediction(name1, name2);
+        if (!predictionStr) {
+            return;
+        }
 
-    console.log(`${_channel} to @${_username} response: ${predictionStr}`);
-    clientSay(_channel, `@${_username} ${predictionStr}`);
+        console.log(`${_channel} to @${_username} response: ${predictionStr}`);
+        clientSay(_channel, `@${_username} ${predictionStr}`);
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const botRun = async (

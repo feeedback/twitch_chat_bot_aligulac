@@ -13,12 +13,20 @@ const Aligulac = (cache) => {
             cache.renewItem(keyToCache);
             return ItemValue;
         }
+        try {
+            const response = await requestFn(key);
+            if (!response || response.status !== 200) {
+                console.log('Aligulac server error');
 
-        const response = await requestFn(key);
-        const ItemValue = await getDataFn(response, key);
+            }
+            const ItemValue = await getDataFn(response, key);
 
-        cache.setItem(keyToCache, ItemValue);
-        return ItemValue;
+            cache.setItem(keyToCache, ItemValue);
+            return ItemValue;
+        } catch (error) {
+            console.log('Aligulac server error', error);
+            throw new Error(`ERROR: getFromCache => ${error}`);
+        }
     };
 
     const apiAligulacGetIdByName = (playerName) =>

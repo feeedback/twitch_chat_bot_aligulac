@@ -1,3 +1,7 @@
+TODO
+    1. Нормальный кэш со временем жизни запроса и постоянным хранением в на облаке или диске
+    2. Поиск каналов, фильтрация активных стримов (подключение к новым??)
+
 Регистрация токена аккаунта бота - https://twitchapps.com/tmi
 Здесь можно потом отключить (этот токен) подключение аккаунта - https://www.twitch.tv/settings/connections
 
@@ -16,7 +20,7 @@ https://api.twitch.tv/helix/streams?game_id=490422     490422 game_id starcraft 
 https://dev.twitch.tv/console/extensions
 https://dev.twitch.tv/docs/authentication#getting-tokens
 
-TODO: Делать ли ответ в чат, что не найден ник или неправильный формат запроса?
+Делать ли ответ в чат, что не найден ник или неправильный формат запроса?
 Пока думаю - нет, т.к. в чатах есть ограничение на количество сообщений, могут дать мут или бан
 Надо или переодически отвечать такой информацией,
  или просто её куда-то периодически писать
@@ -25,14 +29,17 @@ TODO: Делать ли ответ в чат, что не найден ник и
  Что-то типа: 
 Hello, I'm Aligulaс prediction bot. Use me: !alig[ulac] name1 name2.
 Searches only for progamers. If inactive, statistics will lie.
-TODO: периодически (раз 1  час) отправлять инфу во все каналы (и при джойне на новый сразу (в функции джойна))
+TODO: периодически (раз в 6  час) отправлять инфу во все каналы )???
+DONE: (и при джойне на новый сразу (в функции джойна)
 
 // лишняя инфа?
 Only English letters, numbers, -, _. At least 2 chars.
-Better type nicknames starting from the 1st char (but not always necessarily to end). Ex: Nee - OK, Neb, eeb - NOT OK
+Better type nicknames starting from the 1st char (but not always necessarily to end).
+ Ex: Nee - OK, Neb, eeb - NOT OK
 
 // описание канала
 Aliguilac prediction bot by @risok — !alig[ulac] name1 name2 (или !алиг[улак])
+ссылка на гитхаб
 
 TODO: добавить нормальный кэш со временем жизни запроса и постоянным хранением в на облаке или диске
 // данные в кеше не имеют времени жизни, постоянно живут, пока в памяти находится
