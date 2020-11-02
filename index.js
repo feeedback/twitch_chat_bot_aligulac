@@ -15,11 +15,6 @@ const cache = new MemoryStore(MEMORY_CACHE_LENGTH);
 const Aligulac = require('./api/aligulac_api');
 const getAligulacPrediction = Aligulac(cache);
 
-const { createQueueRequest } = require('./utils/util');
-const { queue, doRequest, isQueueRunning } = createQueueRequest(
-    INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT
-);
-
 const tmi = require('tmi.js');
 const client = new tmi.Client(clientTmiSettings);
 
@@ -30,7 +25,5 @@ botRun(
     COMMAND_CHECK_FN,
     isAdsBotWhenJoinChannel,
     AdsBotMessage,
-    queue,
-    doRequest,
-    isQueueRunning
+    INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT
 );

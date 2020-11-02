@@ -1,7 +1,11 @@
-const { recognizeCommandFromMessageText, channelFormat } = require('../utils/util');
+const {
+    recognizeCommandFromMessageText,
+    channelFormat,
+    createQueueRequest,
+} = require('../utils/util');
 
-const connectNewChannel = async (client, channel) => {
-    const channelF = channelFormat(channel);
+const connectNewChannel = async (client, newChannel) => {
+    const channelF = channelFormat(newChannel);
 
     if (client.channels.includes(channelF)) {
         console.log('Ничего не делаю. Этот', channelF, 'канал уже подключён');
@@ -16,6 +20,7 @@ const connectNewChannel = async (client, channel) => {
         client.log.error(error);
     }
 };
+
 const createRequestFn = (clientSay, _getAligulacPrediction) => async ({
     _channel,
     _username,
@@ -38,13 +43,14 @@ const botRun = async (
     COMMAND_CHECK_FN,
     isAdsBotWhenJoinChannel,
     AdsBotMessage,
-    queue,
-    doRequest,
-    isQueueRunning
+    INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT
 ) => {
     await client.connect();
     console.log(`twitch_chat_bot_aligulac START`);
 
+    const { queue, doRequest, isQueueRunning } = createQueueRequest(
+        INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT
+    );
     const requestFn = createRequestFn(client.say, getAligulacPrediction);
 
     client.on('join', async (channel, username, self) => {
