@@ -65,6 +65,7 @@ const settings = {
     },
     INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT: 5050,
     MEMORY_CACHE_LENGTH: 5000,
+    TTL_SEC: 60 * 60 * 24, // сутки
     isAdsBotWhenJoinChannel: true,
     AdsBotMessage: `Hi, I'm prediction bot. Use me: !alig[ulac] name1 name2 (only progamers)`,
 };

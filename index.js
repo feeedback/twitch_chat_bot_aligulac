@@ -5,12 +5,13 @@ const {
     COMMAND_CHECK_FN,
     INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT,
     MEMORY_CACHE_LENGTH,
+    TTL_SEC,
     isAdsBotWhenJoinChannel,
     AdsBotMessage,
 } = require('./bot/settings');
 
 const MemoryStore = require('./cache/memoryCache');
-const cache = new MemoryStore(MEMORY_CACHE_LENGTH);
+const cache = new MemoryStore(MEMORY_CACHE_LENGTH, TTL_SEC);
 
 const Aligulac = require('./api/aligulac_api');
 const getAligulacPrediction = Aligulac(cache);

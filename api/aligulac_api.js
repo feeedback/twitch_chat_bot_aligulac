@@ -8,16 +8,14 @@ const getDOMDocument = (data) => new JSDOM(data).window.document;
 
 const Aligulac = (cache) => {
     const getFromCache = async (key, requestFn, getDataFn, keyToCache = key) => {
-        if (cache.isHas(keyToCache)) {
-            const ItemValue = cache.getItem(keyToCache);
-            cache.renewItem(keyToCache);
-            return ItemValue;
+        const itemValue = cache.smartGetItem(keyToCache); // check, check ttl, renew, return
+        if (itemValue) {
+            return itemValue;
         }
         try {
             const response = await requestFn(key);
             if (!response || response.status !== 200) {
                 console.log('Aligulac server error');
-
             }
             const ItemValue = await getDataFn(response, key);
 

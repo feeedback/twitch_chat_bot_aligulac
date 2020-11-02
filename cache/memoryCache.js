@@ -1,22 +1,57 @@
 /* eslint-disable no-underscore-dangle */
+
+/**
+ *  features:
+ *  stdTTL: yes, customize, default = false
+ *  maxKeys: yes, customize, default = 1000
+ *  checkPeriod: not, no customize
+ *  deleteOnExpire: not, no customize
+ *  useClones: not, no customize
+ *
+ * @class MemoryStore
+ */
 class MemoryStore {
-    constructor(maxLength = 500) {
+    /**
+     * Creates an instance of MemoryStore.
+     * @param {number} [maxLength=1000]
+     * @param {number} [ttlSec=false]
+     * @memberof MemoryStore
+     */
+    constructor(maxLength = 1000, ttlSec = false) {
         this.store = new Map();
         this.maxLength = maxLength;
+        this.ttlSec = ttlSec;
     }
 
-    getItem(key) {
-        const itemValue = this.store.get(String(key)) || null;
+    _getItem(key) {
+        const item = this.store.get(String(key));
+        return item.value || null;
+    }
+
+    smartGetItem(key) {
+        const item = this.store.get(String(key));
+        if (!item) {
+            return null;
+        }
+        if (this.ttlSec && Date.now() > item.time + this.ttlSec * 1000) {
+            this.removeItem(key);
+            return null;
+        }
+        this._renewKeyPosition(key, item);
         // console.log('getItem(key) => ', String(key));
-        return itemValue;
+        return item.value;
     }
 
     isHas(key) {
         return this.store.has(String(key));
     }
 
-    _setItem(key, value) {
-        this.store.set(String(key), value);
+    _setItem(key, value, time) {
+        if (this.ttlSec) {
+            this.store.set(String(key), { value, time: time || Date.now() });
+        } else {
+            this.store.set(String(key), { value });
+        }
     }
 
     setItem(key, value) {
@@ -43,11 +78,9 @@ class MemoryStore {
         return this.store.keys().next().value;
     }
 
-    renewItem(key) {
-        const strKey = String(key);
-        const itemValue = this.getItem(strKey);
-        this.removeItem(strKey);
-        this._setItem(strKey, itemValue);
+    _renewKeyPosition(key, item) {
+        this.removeItem(key);
+        this._setItem(key, item.value, item.time);
     }
 }
 
