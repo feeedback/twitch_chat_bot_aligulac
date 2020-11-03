@@ -74,7 +74,11 @@ const botRun = async (
     client.on('message', async (channel, tags, message, self) => {
         // console.log(`${message}`);
         // Ignore echoed messages.
-        if (self || !message.startsWith('!')) {
+        if (self) {
+            return;
+        }
+
+        if (message.indexOf('!') === -1) {
             return;
         }
         const { command, args } = recognizeCommandFromMessageText(message);

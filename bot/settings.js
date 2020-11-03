@@ -40,7 +40,7 @@ const clientTmiSettings = {
         // // en & other community
         // 'wardiii',
         'indystarcraft',
-        'taketv',
+        // 'taketv', // БАН
         // 'ogamingsc2',
         // 'twitchplayssc',
         // 'wintergaming',

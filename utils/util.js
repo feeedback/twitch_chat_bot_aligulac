@@ -1,7 +1,7 @@
 // const dayjs = require('dayjs');
 
 const recognizeCommandFromMessageText = (message) => {
-    const lowerCaseMessage = message.toLowerCase();
+    const lowerCaseMessage = message.trim().toLowerCase();
     const regex = /!(.*?)$/gm;
     const fullMessageWithCommand = regex.exec(lowerCaseMessage);
 
