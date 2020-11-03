@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 
 const clientTmiSettings = {
     options: {
@@ -17,29 +18,29 @@ const clientTmiSettings = {
         // my
         'risok',
         // ru
-        'sc2mc_ru',
-        // // ru community
-        '3dclanru',
-        // 'alex007sc2',
-        // // 'starladder_sc2_ru', // inactive stream
-        // // ru speaking progamers
-        // 'dimaga',
-        // 'kasmatuy',
-        // 'pavelbratok',
-        // 'blyonfire',
-        // 'BassetSC',
-        // 'skilloussc2',
-        // 'zippzipper',
-        // // 'sc2vanya', // inactive stream
-        // 'fallengersc2',
-        // // en
-        // 'starcraft',
-        'esl_sc2',
-        'esl_sc2b',
-        // // 'wesg_sc2', // inactive stream
-        // // en & other community
-        // 'wardiii',
-        'indystarcraft',
+        // 'sc2mc_ru',
+        // // // ru community
+        // '3dclanru',
+        // // 'alex007sc2',
+        // // // 'starladder_sc2_ru', // inactive stream
+        // // // ru speaking progamers
+        // // 'dimaga',
+        // // 'kasmatuy',
+        // // 'pavelbratok',
+        // // 'blyonfire',
+        // // 'BassetSC',
+        // // 'skilloussc2',
+        // // 'zippzipper',
+        // // // 'sc2vanya', // inactive stream
+        // // 'fallengersc2',
+        // // // en
+        // // 'starcraft',
+        // 'esl_sc2',
+        // 'esl_sc2b',
+        // // // 'wesg_sc2', // inactive stream
+        // // // en & other community
+        // // 'wardiii',
+        // 'indystarcraft',
         // 'taketv', // БАН
         // 'ogamingsc2',
         // 'twitchplayssc',
@@ -66,7 +67,12 @@ const settings = {
     INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT: 5010,
     MEMORY_CACHE_LENGTH: 10000,
     TTL_SEC: 60 * 60 * 24, // сутки
-    isAdsBotWhenJoinChannel: true,
-    AdsBotMessage: `Hi, I'm prediction bot. Use me: !alig[ulac] name1 name2 (only progamers)`,
+    botInfoMessage: {
+        isShow: true,
+        channelsLastMessageTime: {},
+        textMessage: `Hi, I'm prediction bot. Use me: !alig[ulac] name1 name2 (only progamers)`,
+        interval: 6 * 60 * 60 * 1000, // 6 часов
+        filePath: path.join(process.cwd(), './cache/last_bot_info_message.json'),
+    },
 };
 module.exports = settings;

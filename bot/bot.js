@@ -1,3 +1,4 @@
+const { promises: fsp } = require('fs');
 const {
     recognizeCommandFromMessageText,
     channelFormat,
@@ -49,8 +50,7 @@ const botRun = async (
     client,
     getAligulacPrediction,
     COMMAND_CHECK_FN,
-    isAdsBotWhenJoinChannel,
-    AdsBotMessage,
+    botInfoMessage,
     INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT
 ) => {
     await client.connect();
@@ -65,14 +65,28 @@ const botRun = async (
         if (!self) {
             return;
         }
-        if (isAdsBotWhenJoinChannel) {
-            console.log(`${channel} — JOIN — Пишу о боте в чат`);
-            client.say(channel, `${AdsBotMessage}`);
+        if (botInfoMessage.isShow) {
+            const timeLastInfoMessage = botInfoMessage.channelsLastMessageTime[channel];
+            if (
+                !timeLastInfoMessage ||
+                Date.now() > timeLastInfoMessage + botInfoMessage.interval
+            ) {
+                console.log(`${channel} — JOIN — Пишу о боте в чат`);
+                client.say(channel, `${botInfoMessage.textMessage}`);
+
+                // eslint-disable-next-line no-param-reassign
+                botInfoMessage.channelsLastMessageTime[channel] = Date.now();
+
+                fsp.writeFile(
+                    botInfoMessage.filePath,
+                    JSON.stringify(botInfoMessage.channelsLastMessageTime),
+                    'UTF-8'
+                );
+            }
         }
     });
 
     client.on('message', async (channel, tags, message, self) => {
-        // console.log(`${message}`);
         // Ignore echoed messages.
         if (self) {
             return;
