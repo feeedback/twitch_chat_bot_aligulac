@@ -63,6 +63,7 @@ const botRun = async (
 
     client.on('join', async (channel, username, self) => {
         if (!self) {
+            // если присоединяюсь не я - выхожу
             return;
         }
         if (botInfoMessage.isShow) {

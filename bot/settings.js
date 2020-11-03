@@ -18,34 +18,34 @@ const clientTmiSettings = {
         // my
         'risok',
         // ru
-        // 'sc2mc_ru',
-        // // // ru community
-        // '3dclanru',
-        // // 'alex007sc2',
-        // // // 'starladder_sc2_ru', // inactive stream
-        // // // ru speaking progamers
-        // // 'dimaga',
-        // // 'kasmatuy',
-        // // 'pavelbratok',
-        // // 'blyonfire',
-        // // 'BassetSC',
-        // // 'skilloussc2',
-        // // 'zippzipper',
-        // // // 'sc2vanya', // inactive stream
-        // // 'fallengersc2',
-        // // // en
-        // // 'starcraft',
-        // 'esl_sc2',
-        // 'esl_sc2b',
-        // // // 'wesg_sc2', // inactive stream
-        // // // en & other community
-        // // 'wardiii',
-        // 'indystarcraft',
+        'sc2mc_ru',
+        // // ru community
+        '3dclanru',
+        // 'alex007sc2',
+        // // 'starladder_sc2_ru', // inactive stream
+        // // ru speaking progamers
+        // 'dimaga',
+        // 'kasmatuy',
+        // 'pavelbratok',
+        // 'blyonfire',
+        // 'BassetSC',
+        // 'skilloussc2',
+        // 'zippzipper',
+        // // 'sc2vanya', // inactive stream
+        // 'fallengersc2',
+        // // en
+        // 'starcraft',
+        'esl_sc2',
+        'esl_sc2b',
+        // // 'wesg_sc2', // inactive stream
+        // // en & other community
+        'wardiii',
+        'indystarcraft',
         // 'taketv', // БАН
-        // 'ogamingsc2',
-        // 'twitchplayssc',
-        // 'wintergaming',
-        // // en & other progamers
+        'ogamingsc2',
+        'twitchplayssc',
+        'wintergaming',
+        // en & other progamers
         // 'special_',
         // 'harstem',
         // 'heromarine',
