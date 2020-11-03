@@ -39,7 +39,7 @@ const clientTmiSettings = {
         'esl_sc2b',
         // // 'wesg_sc2', // inactive stream
         // // en & other community
-        'wardiii',
+        // 'wardiii', // БАН
         'indystarcraft',
         // 'taketv', // БАН
         'ogamingsc2',
