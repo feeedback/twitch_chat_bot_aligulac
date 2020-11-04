@@ -76,7 +76,7 @@ const botRun = async (
 
                 // eslint-disable-next-line no-param-reassign
                 botInfoMessage.channelsLastMessageTime[channel] = new Date().toISOString();
-                await db.ops.findOneAndReplace(db.models.ChannelsBotLastMessage, channel);
+                await db.ops.findOneAndUpdate(db.models.ChannelsBotLastMessage, channel);
             }
         }
     });
