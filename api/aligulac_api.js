@@ -19,9 +19,9 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
             const swapArgumentsKey = JSON.stringify({ id1: key.id2, id2: key.id1 });
             const itemValueSwap = cache.smartGetItem(swapArgumentsKey);
             if (itemValueSwap) {
-                console.log('Есть зеркальный запрос в кеше :');
-                console.log('keyToCache', keyToCache);
-                console.log('swapArgumentsKey', swapArgumentsKey);
+                // console.log('Есть зеркальный запрос в кеше :');
+                // console.log('keyToCache', keyToCache);
+                // console.log('swapArgumentsKey', swapArgumentsKey);
                 return itemValueSwap;
             }
         }
