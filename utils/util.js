@@ -1,4 +1,4 @@
-// const dayjs = require('dayjs');
+// import dayjs from 'dayjs';
 
 const recognizeCommandFromMessageText = (message) => {
     const lowerCaseMessage = message.trim().toLowerCase();
@@ -49,7 +49,7 @@ const channelFormat = (str) => {
     return channel[0] === '#' ? channel : `#${channel}`;
 };
 
-module.exports = {
+export {
     recognizeCommandFromMessageText,
     channelFormat,
     sleep,

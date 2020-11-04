@@ -1,5 +1,7 @@
-require('dotenv').config();
-const path = require('path');
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config();
 
 const clientTmiSettings = {
     options: {
@@ -54,9 +56,9 @@ const clientTmiSettings = {
 };
 
 const ADMIN_USERNAME = 'risok';
+
 const settings = {
     clientTmiSettings,
-    ADMIN_USERNAME,
     COMMAND_CHECK_FN: {
         isAligulacPrediction: (commandStr) =>
             commandStr.startsWith('alig') || commandStr.startsWith('алиг'),
@@ -66,7 +68,7 @@ const settings = {
     },
     INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT: 5010,
     MEMORY_CACHE_LENGTH: 10000,
-    TTL_SEC: 60 * 60 * 24 * 2, // сутки
+    CACHE_TTL_SEC: 60 * 60 * 24 * 2, // сутки
     botInfoMessage: {
         isShow: true,
         channelsLastMessageTime: {},
@@ -75,4 +77,5 @@ const settings = {
         filePath: path.join(process.cwd(), './cache/last_bot_info_message.json'),
     },
 };
-module.exports = settings;
+
+export default settings;

@@ -2,11 +2,11 @@
 
 /**
  *  features:
- *  stdTTL: yes, customize, default = false
- *  maxKeys: yes, customize, default = 1000
- *  checkPeriod: not, no customize
- *  deleteOnExpire: not, no customize
- *  useClones: not, no customize
+ *  stdTTL: yes, customize, default = false,
+ *  maxKeys: yes, customize, default = 1000,
+ *  checkPeriod: not, no customize,
+ *  deleteOnExpire: not, no customize,
+ *  useClones: not, no customize,
  *
  * @class MemoryStore
  */
@@ -84,4 +84,4 @@ class MemoryStore {
     }
 }
 
-module.exports = MemoryStore;
+export default MemoryStore;

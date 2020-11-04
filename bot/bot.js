@@ -1,9 +1,9 @@
-const { promises: fsp } = require('fs');
-const {
+import { promises as fsp } from 'fs';
+import {
     recognizeCommandFromMessageText,
     channelFormat,
     createQueueRequest,
-} = require('../utils/util');
+} from '../utils/util.js';
 
 const connectNewChannel = async (client, newChannel) => {
     const channelF = channelFormat(newChannel);
@@ -129,4 +129,4 @@ const botRun = async (
         }
     });
 };
-module.exports = botRun;
+export default botRun;

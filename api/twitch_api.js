@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-const axios = require('axios');
+import axios from 'axios';
 // Начальные наработки. Пока ничего не работает.
 
 const STARCRAFT2_GAME_ID = 490422;

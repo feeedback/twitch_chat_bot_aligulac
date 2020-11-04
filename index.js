@@ -1,25 +1,27 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable import/order */
 /* eslint-disable import/newline-after-import */
-const { promises: fsp } = require('fs');
-// const path = require('path');
+import { promises as fsp } from 'fs';
+import { Client } from 'tmi.js';
+// import path from 'path';
+import botSettings from './bot/settings.js';
+import MemoryStore from './cache/memoryCache.js';
+import Aligulac from './api/aligulac_api.js';
+import botRun from './bot/bot.js';
+
 const {
     clientTmiSettings,
     COMMAND_CHECK_FN,
     INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT,
     MEMORY_CACHE_LENGTH,
-    TTL_SEC,
+    CACHE_TTL_SEC,
     botInfoMessage,
-} = require('./bot/settings');
+} = botSettings;
 
-const MemoryStore = require('./cache/memoryCache');
-const cache = new MemoryStore(MEMORY_CACHE_LENGTH, TTL_SEC);
-
-const Aligulac = require('./api/aligulac_api');
-const getAligulacPrediction = Aligulac(cache);
-
-const tmi = require('tmi.js');
-const client = new tmi.Client(clientTmiSettings);
+// const cacheForNicknames = new MemoryStore(MEMORY_CACHE_LENGTH, CACHE_TTL_SEC);
+const cacheForPrediction = new MemoryStore(MEMORY_CACHE_LENGTH, CACHE_TTL_SEC);
+const getAligulacPrediction = Aligulac(cacheForPrediction);
+const client = new Client(clientTmiSettings);
 
 const getFromFileChannelsLastMessageTime = async () => {
     const data = JSON.parse((await fsp.readFile(botInfoMessage.filePath, 'UTF-8')) || null);
@@ -29,8 +31,6 @@ const getFromFileChannelsLastMessageTime = async () => {
         }
     }
 };
-
-const botRun = require('./bot/bot');
 (async () => {
     await getFromFileChannelsLastMessageTime();
     botRun(

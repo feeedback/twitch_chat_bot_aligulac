@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
-const axios = require('axios');
-// const dayjs = require('dayjs');
-const { JSDOM } = require('jsdom');
+import axios from 'axios';
+// import dayjs from 'dayjs';
+import { JSDOM } from 'jsdom';
 
 const getDOMDocument = (data) => new JSDOM(data).window.document;
 // const now = () => dayjs().format('HH:mm:ss,SSS');
@@ -171,4 +171,4 @@ const Aligulac = (cache) => {
     return formatRequestAndRequest;
 };
 
-module.exports = Aligulac;
+export default Aligulac;
