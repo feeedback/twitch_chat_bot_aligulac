@@ -76,7 +76,7 @@ const settings = {
     botInfoMessage: {
         isShow: true,
         textMessage: `Hi, I'm doing prediction. Use me: !alig[ulac] name1 name2`,
-        // textMessage: `Hi, I'm doing prediction. Use me: !alig[ulac] name1 name2 (only progamers)`,
+        //  `Hi, I'm doing prediction. Use me: !alig[ulac] name1 name2 (only progamers)`,
         intervalMs: 1000 * 60 * 60 * 24 * 5, // 5 суток
         filePath: path.join(process.cwd(), './cache/last_bot_info_message.json'),
     },
