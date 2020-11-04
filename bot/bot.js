@@ -70,15 +70,12 @@ const botRun = async (
         if (botInfoMessage.isShow) {
             const time = botInfoMessage.channelsLastMessageTime[channel];
 
-            // if (time && typeof time !== 'number') {
-            //     time = new Date(time).getTime();
-            // }
-            if (!time || Date.now() > time + botInfoMessage.intervalMs) {
+            if (!time || Date.now() > new Date(time).getTime() + botInfoMessage.intervalMs) {
                 console.log(`${channel} — JOIN — Пишу о боте в чат`);
                 client.say(channel, `${botInfoMessage.textMessage}`);
 
                 // eslint-disable-next-line no-param-reassign
-                botInfoMessage.channelsLastMessageTime[channel] = Date.now();
+                botInfoMessage.channelsLastMessageTime[channel] = new Date().toISOString();
                 await db.ops.findOneAndReplace(db.models.ChannelsBotLastMessage, channel);
             }
         }

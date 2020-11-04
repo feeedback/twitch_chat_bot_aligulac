@@ -11,6 +11,7 @@ import botRun from './bot/bot.js';
 const {
     clientTmiSettings,
     COMMAND_CHECK_FN,
+    INTERVAL_SAVE_CACHE_TO_DB,
     INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT,
     CACHE_LENGTH_NICKNAMES,
     CACHE_LENGTH_PREDICTIONS,
@@ -21,11 +22,9 @@ const {
 
 const getCache = (cacheLength, ttlSec, Model, recordName) => async () => {
     const oldCache = await db.ops.findOne(Model, recordName);
+    console.log('oldCache :>> ', oldCache);
     if (oldCache) {
-        console.log('oldCache :>> ', oldCache);
-        oldCache.data.setNewSettings(cacheLength, ttlSec);
-        console.log('oldCache.data :>> ', oldCache.data);
-        return oldCache.data;
+        return new MemoryStore(cacheLength, ttlSec, oldCache.data);
     }
     return new MemoryStore(cacheLength, ttlSec);
 };
@@ -45,7 +44,7 @@ const getCachePredictions = getCache(
 const getFromDBChannelsLastMessageTime = async () => {
     const channelsLastMessageTime = {};
     const records = await db.ops.findAll(db.models.ChannelsBotLastMessage);
-    console.log('records :>> ', records);
+    console.log('channelsLastMessageTime :>> ', records);
     // const data = JSON.parse((await fsp.readFile(botInfoMessage.filePath, 'UTF-8')) || null);
 
     for (const { name, time } of records) {
@@ -53,12 +52,20 @@ const getFromDBChannelsLastMessageTime = async () => {
     }
     return channelsLastMessageTime;
 };
+const cronSaveCacheToDB = async (intervalMs, cacheNicknames, cachePredictions) => {
+    await db.ops.findOneAndUpdate2(db.models.Nicknames, 'nicknames', cacheNicknames.store);
+    await db.ops.findOneAndUpdate2(db.models.Predictions, 'predictions', cachePredictions.store);
+
+    setTimeout(() => {
+        cronSaveCacheToDB(intervalMs, cacheNicknames, cachePredictions);
+    }, intervalMs);
+};
 
 (async () => {
     const cacheNicknames = await getCacheNicknames();
     const cachePredictions = await getCachePredictions();
-    console.log('start cacheForNicknames :>> ', cacheNicknames);
-    console.log('start cacheForPrediction :>> ', cachePredictions);
+
+    cronSaveCacheToDB(INTERVAL_SAVE_CACHE_TO_DB, cacheNicknames, cachePredictions);
 
     const getAligulacPrediction = Aligulac(cacheNicknames, cachePredictions);
 
@@ -71,6 +78,7 @@ const getFromDBChannelsLastMessageTime = async () => {
         COMMAND_CHECK_FN,
         botInfoMessage,
         INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT,
-        db
+        db,
+        cronSaveCacheToDB
     );
 })();

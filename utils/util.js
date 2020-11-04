@@ -26,7 +26,7 @@ const createQueueRequest = (interval) => {
     const queue = [];
     let isQueueRunning = false;
 
-    const doRequest = (requestFn) => {
+    const doRequest = async (requestFn) => {
         // считает интервал от поступления запроса, не дожидается выполнения,
         // так что это в большей мере на ответ в чат ограничение
         isQueueRunning = true;
@@ -37,9 +37,9 @@ const createQueueRequest = (interval) => {
             return;
         }
 
-        requestFn(firstRequest);
-        sleep(interval).then(() => {
-            doRequest(requestFn);
+        await requestFn(firstRequest);
+        sleep(interval).then(async () => {
+            await doRequest(requestFn);
         });
     };
     return { queue, doRequest, isQueueRunning };

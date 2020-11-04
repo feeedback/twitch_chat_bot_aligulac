@@ -11,9 +11,9 @@ const cacheSchema = new mongoose.Schema({
         default: () => nanoid(),
     },
     time: {
-        type: Types.Number,
+        type: Types.Date,
         required: true,
-        default: () => Date.now(),
+        default: () => new Date().toISOString(),
     },
     name: {
         type: Types.String,
@@ -32,9 +32,9 @@ const channelsBotLastMessageSchema = new mongoose.Schema({
         default: () => nanoid(),
     },
     time: {
-        type: Types.Number,
+        type: Types.Date,
         required: true,
-        default: () => Date.now(),
+        default: () => new Date().toISOString(),
     },
     name: {
         type: Types.String,
@@ -69,12 +69,19 @@ const findOne = async (Model, name) => {
     return record;
 };
 
-const findOneAndReplace = async (Model, name, data = null) => {
+const findOneAndUpdate = async (Model, name, data = null) => {
     const filter = { name };
     const update = data === null ? { name } : { name, data };
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
-    const newRecord = await Model.findOneAndUpdate(filter, update, options);
-    console.log('findOneAndReplace newRecord :>> ', newRecord);
+    await Model.findOneAndUpdate(filter, update, options);
+    // console.log('findOneAndUpdate newRecord :>> ', newRecord);
+};
+
+const findOneAndUpdateNoWait = async (Model, name, data = null) => {
+    const filter = { name };
+    const update = data === null ? { name } : { name, data };
+    const options = { upsert: true, setDefaultsOnInsert: true };
+    await Model.findOneAndUpdate(filter, update, options);
 };
 
 /**
@@ -92,6 +99,14 @@ const deleteAll = async (Model) => {
     await Model.deleteMany({});
 };
 
-const dbOperations = { createOne, deleteAll, findAll, getQuantity, findOne, findOneAndReplace };
+const dbOperations = {
+    createOne,
+    deleteAll,
+    findAll,
+    getQuantity,
+    findOne,
+    findOneAndUpdate,
+    findOneAndUpdate2: findOneAndUpdateNoWait,
+};
 export default { ops: dbOperations, models: dbModels };
 // export { dbOperations as dbOps, dbModels };

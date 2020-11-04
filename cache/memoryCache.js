@@ -17,8 +17,8 @@ class MemoryStore {
      * @param {number} [ttlSec=false]
      * @memberof MemoryStore
      */
-    constructor(maxLength = 1000, ttlSec = false) {
-        this.store = new Map();
+    constructor(maxLength = 1000, ttlSec = false, store = new Map()) {
+        this.store = store;
         this.maxLength = maxLength;
         this.ttlSec = ttlSec;
     }
@@ -35,7 +35,7 @@ class MemoryStore {
         }
 
         if (this.ttlSec) {
-            if (Date.now() > item.time + this.ttlSec * 1000) {
+            if (Date.now() > new Date(item.time).getTime() + this.ttlSec * 1000) {
                 this.removeItem(key);
                 return null;
             }
@@ -51,7 +51,7 @@ class MemoryStore {
 
     _setItem(key, value, time) {
         if (this.ttlSec) {
-            this.store.set(String(key), { value, time: time || Date.now() });
+            this.store.set(String(key), { value, time: time || new Date().toISOString() });
         } else {
             this.store.set(String(key), { value });
         }
@@ -86,10 +86,10 @@ class MemoryStore {
         this._setItem(key, item.value, item.time);
     }
 
-    setNewSettings(maxLength = this.maxLength, ttlSec = this.ttlSec) {
-        this.maxLength = maxLength;
-        this.ttlSec = ttlSec;
-    }
+    // setNewSettings(maxLength = this.maxLength, ttlSec = this.ttlSec) {
+    //     this.maxLength = maxLength;
+    //     this.ttlSec = ttlSec;
+    // }
 }
 
 export default MemoryStore;
