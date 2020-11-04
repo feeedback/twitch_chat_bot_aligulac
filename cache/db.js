@@ -1,86 +1,95 @@
 // ### DB ###
+// import mongo from 'mongodb';
+import mongoose from 'mongoose';
 import { nanoid } from 'nanoid';
 
-import mongo from 'mongodb';
-import mongoose, { connect, model } from 'mongoose';
+const { Types } = mongoose.Schema;
 
-const { Schema } = mongoose;
-connect(process.env.MLAB_URI);
-
-const taskSchema = new Schema({
-    _id: false,
-    description: { type: String, required: true },
-    duration: { type: Number, required: true },
-    date: { type: Date, default: Date.now },
-});
-const userSchema = new Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true,
+const cacheSchema = new mongoose.Schema({
+    _id: {
+        type: Types.String,
         default: () => nanoid(),
     },
-    count: { type: Number, required: true },
-    log: [taskSchema],
+    time: {
+        type: Types.Date,
+        required: true,
+        default: () => Date.now(),
+    },
+    name: {
+        type: Types.String,
+        required: true,
+        unique: true,
+    },
+    data: {
+        type: Types.Map,
+        required: true,
+        default: null,
+    },
+});
+const channelsBotLastMessageSchema = new mongoose.Schema({
+    _id: {
+        type: Types.String,
+        default: () => nanoid(),
+    },
+    time: {
+        type: Types.Date,
+        required: true,
+        default: () => Date.now(),
+    },
+    name: {
+        type: Types.String,
+        required: true,
+        unique: true,
+    },
 });
 
-const User = model('user-exercises', userSchema);
+mongoose.connect(process.env.MD_URI);
+const Nicknames = mongoose.model('progamers_nickname', cacheSchema);
+const Predictions = mongoose.model('games_predictions', cacheSchema);
+const ChannelsBotLastMessage = mongoose.model(
+    'bot_info_last_messages_time',
+    channelsBotLastMessageSchema
+);
 
-const createAndSaveUser = (username, done) => {
-    new User({ username, count: 0, log: [] }).save(function(err, data) {
-        if (err || !data) {
-            done(err);
-        } else {
-            done(null, data);
-        }
-    });
-};
-const findUserAndAddTask = (_id, newTask, done) => {
-    User.findOneAndUpdate(
-        { _id },
-        { $push: { log: newTask }, $inc: { count: 1 } },
-        { new: true },
-        (err, updatedRecord) => {
-            if (err || !updatedRecord) {
-                done(err);
-            } else {
-                done(null, {
-                    task: updatedRecord.log[updatedRecord.log.length - 1],
-                    user: { userid: updatedRecord._id, username: updatedRecord.username },
-                });
-            }
-        }
-    );
-};
-const getAllUsers = (done) => {
-    User.find()
-        .select({ count: 0, log: 0 })
-        .exec((err, usersFound) => {
-            if (err || !usersFound) {
-                done(err);
-            } else {
-                done(null, usersFound);
-            }
-        });
-};
-const getUserData = (_id, done) => {
-    User.findById(_id, (err, usersFound) => {
-        if (err || !usersFound) {
-            done(err);
-        } else {
-            done(null, usersFound);
-        }
-    });
+const dbModels = { Nicknames, Predictions, ChannelsBotLastMessage };
+
+const createOne = async (Model, name, data = null) => {
+    const newRecord = data === null ? { name } : { name, data };
+    await new Model(newRecord);
 };
 
-// const getUserDataFilterDB = ({_id, limit = 10, from, to}, done) => {
-//   User.findById(_id)
-//     .limit(limit)
-//     .select({ age: 0 })
-//     .exec((err, personFound) => {
-//       if (err) return console.log(err);
-//       done(null, personFound);
-//     });
+const getQuantity = async (Model) => {
+    const recordsCount = await Model.estimatedDocumentCount();
+    return recordsCount;
+};
+
+const findOne = async (Model, name) => {
+    const filter = { name };
+    const record = await Model.findOne(filter);
+    return record;
+};
+
+const findOneAndReplace = async (Model, name, data = null) => {
+    const filter = { name };
+    const replacement = data === null ? { name } : { name, data };
+    await Model.findOneAndReplace(filter, replacement);
+};
+
+const findAll = async (Model) => {
+    const allRecords = await Model.find({});
+    return allRecords;
+};
+
+const deleteAll = async (Model) => {
+    await Model.deleteMany({});
+};
+
+const dbOperations = { createOne, deleteAll, findAll, getQuantity, findOne, findOneAndReplace };
+export { dbOperations, dbModels };
+
+// const findAndUpdate = async (Model, name, data = null) => {
+//     // так не будет обновляться поле времени - лучше не юзать
+//     const filter = { name };
+//     const update = data === null ? { name } : { name, data };
+//     await Model.findOneAndUpdate(filter, update);
 // };
-
-export { createAndSaveUser, findUserAndAddTask, getAllUsers, getUserData };
