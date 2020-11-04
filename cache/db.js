@@ -11,7 +11,7 @@ const cacheSchema = new mongoose.Schema({
         default: () => nanoid(),
     },
     time: {
-        type: Types.Date,
+        type: Types.Number,
         required: true,
         default: () => Date.now(),
     },
@@ -32,7 +32,7 @@ const channelsBotLastMessageSchema = new mongoose.Schema({
         default: () => nanoid(),
     },
     time: {
-        type: Types.Date,
+        type: Types.Number,
         required: true,
         default: () => Date.now(),
     },
@@ -43,7 +43,7 @@ const channelsBotLastMessageSchema = new mongoose.Schema({
     },
 });
 
-mongoose.connect(process.env.MD_URI);
+mongoose.connect(process.env.MD_URI, { useNewUrlParser: true, useFindAndModify: false });
 const Nicknames = mongoose.model('progamers_nickname', cacheSchema);
 const Predictions = mongoose.model('games_predictions', cacheSchema);
 const ChannelsBotLastMessage = mongoose.model(
@@ -71,10 +71,18 @@ const findOne = async (Model, name) => {
 
 const findOneAndReplace = async (Model, name, data = null) => {
     const filter = { name };
-    const replacement = data === null ? { name } : { name, data };
-    await Model.findOneAndReplace(filter, replacement);
+    const update = data === null ? { name } : { name, data };
+    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+    const newRecord = await Model.findOneAndUpdate(filter, update, options);
+    console.log('findOneAndReplace newRecord :>> ', newRecord);
 };
 
+/**
+ *
+ *
+ * @param {mongoose.Model} Model
+ * @return {[mongoose.Document]} of records
+ */
 const findAll = async (Model) => {
     const allRecords = await Model.find({});
     return allRecords;
@@ -85,11 +93,5 @@ const deleteAll = async (Model) => {
 };
 
 const dbOperations = { createOne, deleteAll, findAll, getQuantity, findOne, findOneAndReplace };
-export { dbOperations, dbModels };
-
-// const findAndUpdate = async (Model, name, data = null) => {
-//     // так не будет обновляться поле времени - лучше не юзать
-//     const filter = { name };
-//     const update = data === null ? { name } : { name, data };
-//     await Model.findOneAndUpdate(filter, update);
-// };
+export default { ops: dbOperations, models: dbModels };
+// export { dbOperations as dbOps, dbModels };

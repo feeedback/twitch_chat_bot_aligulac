@@ -33,9 +33,12 @@ class MemoryStore {
         if (!item) {
             return null;
         }
-        if (this.ttlSec && Date.now() > item.time + this.ttlSec * 1000) {
-            this.removeItem(key);
-            return null;
+
+        if (this.ttlSec) {
+            if (Date.now() > item.time + this.ttlSec * 1000) {
+                this.removeItem(key);
+                return null;
+            }
         }
         this._renewKeyPosition(key, item);
         // console.log('getItem(key) => ', String(key));
@@ -81,6 +84,11 @@ class MemoryStore {
     _renewKeyPosition(key, item) {
         this.removeItem(key);
         this._setItem(key, item.value, item.time);
+    }
+
+    setNewSettings(maxLength = this.maxLength, ttlSec = this.ttlSec) {
+        this.maxLength = maxLength;
+        this.ttlSec = ttlSec;
     }
 }
 

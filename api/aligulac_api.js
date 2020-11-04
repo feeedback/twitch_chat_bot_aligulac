@@ -1,17 +1,27 @@
 /* eslint-disable consistent-return */
 import axios from 'axios';
 // import dayjs from 'dayjs';
-import { JSDOM } from 'jsdom';
+import jsdom from 'jsdom';
 
-const getDOMDocument = (data) => new JSDOM(data).window.document;
+const getDOMDocument = (data) => new jsdom.JSDOM(data).window.document;
 // const now = () => dayjs().format('HH:mm:ss,SSS');
 
-const Aligulac = (cache) => {
-    const getFromCache = async (key, requestFn, getDataFn, keyToCache = key) => {
+const Aligulac = (cacheNicknames, cachePrediction) => {
+    const getFromCache = (cache, twoKey = false) => async (key, requestFn, getDataFn) => {
+        const keyToCache = typeof key !== 'string' ? JSON.stringify(key) : key;
         const itemValue = cache.smartGetItem(keyToCache); // check, check ttl, renew, return
         if (itemValue) {
             return itemValue;
         }
+        if (twoKey) {
+            // Если в кэше есть результат с другим порядком игроков - отдаём его
+            const swapArgumentsKey = JSON.stringify({ id1: key.id2, id2: key.id1 });
+            const itemValueSwap = cache.smartGetItem(swapArgumentsKey);
+            if (itemValueSwap) {
+                return itemValueSwap;
+            }
+        }
+
         try {
             const response = await requestFn(key);
             if (!response || response.status !== 200) {
@@ -26,6 +36,8 @@ const Aligulac = (cache) => {
             throw new Error(`ERROR: getFromCache => ${error}`);
         }
     };
+    const getFromCacheNicknames = getFromCache(cacheNicknames);
+    const getFromCachePrediction = getFromCache(cachePrediction, true);
 
     const apiAligulacGetIdByName = (playerName) =>
         `http://aligulac.com/search/json/?search_for=players&q=${playerName}`;
@@ -102,7 +114,7 @@ const Aligulac = (cache) => {
 
     const getPredictionGameString = async (p1Name, p2Name) => {
         try {
-            const p1Id = await getFromCache(
+            const p1Id = await getFromCacheNicknames(
                 p1Name,
                 async (nameP1) => axios.get(apiAligulacGetIdByName(nameP1)),
                 (responseJson, nameP1) => getPlayerIdFromData(responseJson.data, nameP1)
@@ -112,7 +124,7 @@ const Aligulac = (cache) => {
                 return;
             }
 
-            const p2Id = await getFromCache(
+            const p2Id = await getFromCacheNicknames(
                 p2Name,
                 async (nameP2) => axios.get(apiAligulacGetIdByName(nameP2)),
                 (responseJson, nameP2) => getPlayerIdFromData(responseJson.data, nameP2)
@@ -122,11 +134,10 @@ const Aligulac = (cache) => {
                 return;
             }
 
-            const str = await getFromCache(
+            const str = await getFromCachePrediction(
                 { id1: p1Id, id2: p2Id },
                 async ({ id1, id2 }) => axios.get(apiAligulacGetPredictionByIds(id1, id2)),
-                (responseHtml) => getStringFromPredictionHtml(getDOMDocument(responseHtml.data)),
-                `${p1Id} vs ${p2Id}`
+                (responseHtml) => getStringFromPredictionHtml(getDOMDocument(responseHtml.data))
             );
             return str;
         } catch (error) {
@@ -158,14 +169,23 @@ const Aligulac = (cache) => {
     };
 
     const formatRequestAndRequest = async (p1Name, p2Name) => {
+        console.log('before cacheForNicknames :>> ', cacheNicknames);
+        console.log('before cacheForPrediction :>> ', cachePrediction);
+
         // console.log(now(), 'request', p1Name, p2Name);
         const name1F = formatName(p1Name);
         const name2F = formatName(p2Name);
+        if (name1F === name2F) {
+            console.log(`EXIT => Имена игроков совпадают`);
+            return null;
+        }
         if (isGoodFormatName(name1F) === null || isGoodFormatName(name2F) === null) {
             console.log(`EXIT => Имя игрока не соответствует требованию`);
             return null;
         }
         const resultStr = await getPredictionGameString(name1F, name2F);
+        console.log('after cacheForNicknames :>> ', cacheNicknames);
+        console.log('after cacheForPrediction :>> ', cachePrediction);
         return resultStr;
     };
     return formatRequestAndRequest;

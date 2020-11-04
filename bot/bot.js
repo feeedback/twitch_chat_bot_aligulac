@@ -1,4 +1,4 @@
-import { promises as fsp } from 'fs';
+// import { promises as fsp } from 'fs';
 import {
     recognizeCommandFromMessageText,
     channelFormat,
@@ -51,7 +51,8 @@ const botRun = async (
     getAligulacPrediction,
     COMMAND_CHECK_FN,
     botInfoMessage,
-    INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT
+    INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT,
+    db
 ) => {
     await client.connect();
     console.log(`twitch_chat_bot_aligulac бот запущен`);
@@ -67,22 +68,18 @@ const botRun = async (
             return;
         }
         if (botInfoMessage.isShow) {
-            const timeLastInfoMessage = botInfoMessage.channelsLastMessageTime[channel];
-            if (
-                !timeLastInfoMessage ||
-                Date.now() > timeLastInfoMessage + botInfoMessage.interval
-            ) {
+            const time = botInfoMessage.channelsLastMessageTime[channel];
+
+            // if (time && typeof time !== 'number') {
+            //     time = new Date(time).getTime();
+            // }
+            if (!time || Date.now() > time + botInfoMessage.intervalMs) {
                 console.log(`${channel} — JOIN — Пишу о боте в чат`);
                 client.say(channel, `${botInfoMessage.textMessage}`);
 
                 // eslint-disable-next-line no-param-reassign
                 botInfoMessage.channelsLastMessageTime[channel] = Date.now();
-
-                fsp.writeFile(
-                    botInfoMessage.filePath,
-                    JSON.stringify(botInfoMessage.channelsLastMessageTime),
-                    'UTF-8'
-                );
+                await db.ops.findOneAndReplace(db.models.ChannelsBotLastMessage, channel);
             }
         }
     });
