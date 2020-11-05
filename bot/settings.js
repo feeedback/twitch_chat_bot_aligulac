@@ -67,7 +67,7 @@ const settings = {
             commandStr === 'add_channel_to_bot' && username === ADMIN_USERNAME,
     },
     INTERVAL_SAVE_CACHE_TO_DB: 1000 * 60 * 5, // раз в 5 минут
-    INTERVAL_REQUEST_API_ALIGULAC: 3000,
+    INTERVAL_REQUEST_API_ALIGULAC: 1000,
     INTERVAL_RESPONSE_IN_CHAT: 5000,
     CACHE_LENGTH_NICKNAMES: 10000,
     CACHE_LENGTH_PREDICTIONS: 3000,
