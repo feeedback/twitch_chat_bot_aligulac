@@ -37,7 +37,7 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
             return ItemValue;
         } catch (error) {
             const errorMsg = `ERROR: Aligulac server: ${error?.response?.status} ${error?.response?.statusText}`;
-            console.log(errorMsg);
+            // console.log(errorMsg);
             throw new Error(errorMsg);
         }
     };
@@ -62,7 +62,7 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
             }
             return players[0].id;
         } catch (error) {
-            console.log(`ERROR: getPlayerIdFromData`);
+            // console.log(`ERROR: getPlayerIdFromData`);
             throw new Error(`ERROR: getPlayerIdFromData`);
         }
     };
@@ -146,8 +146,8 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
             );
             return str;
         } catch (error) {
-            console.log(`ERROR: getPredictionGameString`);
-            throw new Error(`ERROR: getPredictionGameString`);
+            // console.log(`ERROR: getPredictionGameString`);
+            throw new Error(error);
         }
     };
 
@@ -184,8 +184,13 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
             console.log(`EXIT => Имя игрока не соответствует требованию`);
             return null;
         }
-        const resultStr = await getPredictionGameString(name1F, name2F);
-        return resultStr;
+        try {
+            const resultStr = await getPredictionGameString(name1F, name2F);
+            return resultStr;
+        } catch (error) {
+            // console.log(`ERROR: getPredictionGameString`);
+            throw new Error(error);
+        }
     };
     return formatRequestAndRequest;
 };

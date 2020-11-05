@@ -56,8 +56,7 @@ const createRequestFnAligulac = (_getAligulacPrediction) => async ({
         );
         return predictionStr;
     } catch (error) {
-        console.log('ERROR: createRequestFnAligulac');
-        throw new Error(`ERROR: createRequestFnAligulac`);
+        throw new Error(error);
     }
 };
 const queueAligulac = [];
@@ -85,15 +84,17 @@ const doRequestAligulac = (requestFn, requestFnChat) => {
         return;
     }
 
-    requestFn(firstRequest).then((predictionStr) => {
-        if (!predictionStr) {
-            return;
-        }
-        queueChat.push({ ...firstRequest, predictionStr });
-        if (!isQueueRunningChat) {
-            doRequestChat(requestFnChat);
-        }
-    });
+    requestFn(firstRequest)
+        .then((predictionStr) => {
+            if (!predictionStr) {
+                return;
+            }
+            queueChat.push({ ...firstRequest, predictionStr });
+            if (!isQueueRunningChat) {
+                doRequestChat(requestFnChat);
+            }
+        })
+        .catch(() => {});
     setTimeout(doRequestAligulac, INTERVAL_REQUEST_API_ALIGULAC, requestFn);
     isQueueRunningAligulac = true;
 };
