@@ -36,8 +36,9 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
             cache.setItem(keyToCache, ItemValue);
             return ItemValue;
         } catch (error) {
-            console.log('Aligulac server error', error);
-            throw new Error(`ERROR: getFromCache`);
+            const errorMsg = `ERROR: Aligulac server: ${error?.response?.status} ${error?.response?.statusText}`;
+            console.log(errorMsg);
+            throw new Error(errorMsg);
         }
     };
     const getFromCacheNicknames = getFromCache(_cacheNicknames);
@@ -61,7 +62,7 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
             }
             return players[0].id;
         } catch (error) {
-            console.log(`ERROR: getPlayerIdFromData => ${error}`);
+            console.log(`ERROR: getPlayerIdFromData`);
             throw new Error(`ERROR: getPlayerIdFromData`);
         }
     };
@@ -145,7 +146,7 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
             );
             return str;
         } catch (error) {
-            console.log(`ERROR: getPredictionGameString => ${error}`);
+            console.log(`ERROR: getPredictionGameString`);
             throw new Error(`ERROR: getPredictionGameString`);
         }
     };

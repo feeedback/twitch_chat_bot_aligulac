@@ -56,7 +56,7 @@ const createRequestFnAligulac = (_getAligulacPrediction) => async ({
         );
         return predictionStr;
     } catch (error) {
-        console.log('ERROR: createRequestFnAligulac', error);
+        console.log('ERROR: createRequestFnAligulac');
         throw new Error(`ERROR: createRequestFnAligulac`);
     }
 };
