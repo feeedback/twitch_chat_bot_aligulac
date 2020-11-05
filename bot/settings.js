@@ -20,38 +20,38 @@ const clientTmiSettings = {
         // my
         'risok',
         // // ru
-        // 'sc2mc_ru',
-        // // // // ru community
-        // '3dclanru',
-        // // // 'alex007sc2',
-        // // // // 'starladder_sc2_ru', // inactive stream
-        // // // // ru speaking progamers
-        // // // 'dimaga',
-        // // // 'kasmatuy',
-        // // // 'pavelbratok',
-        // // // 'blyonfire',
-        // // // 'BassetSC',
-        // // // 'skilloussc2',
-        // // // 'zippzipper',
-        // // // // 'sc2vanya', // inactive stream
-        // // // 'fallengersc2',
-        // // // // en
-        // // // 'starcraft',
-        // // // 'esl_sc2', // БАН
-        // // 'esl_sc2b',
-        // // // // 'wesg_sc2', // inactive stream
-        // // // // en & other community
-        // // // 'wardiii', // БАН
-        // 'indystarcraft',
-        // // // 'taketv', // БАН
-        // 'ogamingsc2',
-        // // 'twitchplayssc',
-        // // 'wintergaming',
-        // // // en & other progamers
-        // // // 'special_',
-        // // // 'harstem',
-        // // // 'heromarine',
-        // // // 'ninasc2',
+        'sc2mc_ru',
+        // // // ru community
+        '3dclanru',
+        // // 'alex007sc2',
+        // // // 'starladder_sc2_ru', // inactive stream
+        // // // ru speaking progamers
+        // // 'dimaga',
+        // // 'kasmatuy',
+        // // 'pavelbratok',
+        // // 'blyonfire',
+        // // 'BassetSC',
+        // // 'skilloussc2',
+        // // 'zippzipper',
+        // // // 'sc2vanya', // inactive stream
+        // // 'fallengersc2',
+        // // // en
+        // // 'starcraft',
+        // // 'esl_sc2', // БАН
+        // 'esl_sc2b',
+        // // // 'wesg_sc2', // inactive stream
+        // // // en & other community
+        // // 'wardiii', // БАН
+        'indystarcraft',
+        // // 'taketv', // БАН
+        'ogamingsc2',
+        // 'twitchplayssc',
+        // 'wintergaming',
+        // // en & other progamers
+        // // 'special_',
+        // // 'harstem',
+        // // 'heromarine',
+        // // 'ninasc2',
     ],
 };
 
@@ -67,8 +67,8 @@ const settings = {
             commandStr === 'add_channel_to_bot' && username === ADMIN_USERNAME,
     },
     INTERVAL_SAVE_CACHE_TO_DB: 1000 * 60 * 5, // раз в 5 минут
-    INTERVAL_REQUEST_API_ALIGULAC: 2000,
-    INTERVAL_RESPONSE_IN_CHAT: 10000,
+    INTERVAL_REQUEST_API_ALIGULAC: 3000,
+    INTERVAL_RESPONSE_IN_CHAT: 5000,
     CACHE_LENGTH_NICKNAMES: 10000,
     CACHE_LENGTH_PREDICTIONS: 3000,
     CACHE_TTL_SEC_NICKNAMES: 60 * 60 * 24 * 50, // 50 суток
