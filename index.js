@@ -23,7 +23,7 @@ const {
 
 const getCache = (cacheLength, ttlSec, Model, recordName) => async () => {
     const oldCache = await db.ops.findOne(Model, recordName);
-    console.log('start oldCache :>> ', oldCache);
+    // console.log('start oldCache :>> ', oldCache);
     if (oldCache) {
         return new MemoryStore(cacheLength, ttlSec, oldCache.data);
     }
@@ -45,7 +45,7 @@ const getCachePredictions = getCache(
 const getFromDBChannelsLastMessageTime = async () => {
     const channelsLastMessageTime = {};
     const records = await db.ops.findAll(db.models.ChannelsBotLastMessage);
-    console.log('start channelsLastMessageTime :>> ', records);
+    // console.log('start channelsLastMessageTime :>> ', records);
     // const data = JSON.parse((await fsp.readFile(botInfoMessage.filePath, 'UTF-8')) || null);
 
     for (const { name, time } of records) {
