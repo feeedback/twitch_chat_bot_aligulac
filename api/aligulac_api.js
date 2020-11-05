@@ -37,7 +37,7 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
             return ItemValue;
         } catch (error) {
             console.log('Aligulac server error', error);
-            throw new Error(`ERROR: getFromCache => ${error}`);
+            throw new Error(`ERROR: getFromCache`);
         }
     };
     const getFromCacheNicknames = getFromCache(_cacheNicknames);
