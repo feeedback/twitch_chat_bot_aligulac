@@ -62,7 +62,7 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
             return players[0].id;
         } catch (error) {
             console.log(`ERROR: getPlayerIdFromData => ${error}`);
-            throw new Error(`ERROR: getPlayerIdFromData => ${error}`);
+            throw new Error(`ERROR: getPlayerIdFromData`);
         }
     };
     const getRowText = (row) => {
@@ -146,7 +146,7 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
             return str;
         } catch (error) {
             console.log(`ERROR: getPredictionGameString => ${error}`);
-            throw new Error(`ERROR: getPredictionGameString => ${error}`);
+            throw new Error(`ERROR: getPredictionGameString`);
         }
     };
 
