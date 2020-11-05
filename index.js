@@ -12,7 +12,8 @@ const {
     clientTmiSettings,
     COMMAND_CHECK_FN,
     INTERVAL_SAVE_CACHE_TO_DB,
-    INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT,
+    INTERVAL_REQUEST_API_ALIGULAC,
+    INTERVAL_RESPONSE_IN_CHAT,
     CACHE_LENGTH_NICKNAMES,
     CACHE_LENGTH_PREDICTIONS,
     CACHE_TTL_SEC_NICKNAMES,
@@ -77,8 +78,8 @@ const cronSaveCacheToDB = async (intervalMs, cacheNicknames, cachePredictions) =
         getAligulacPrediction,
         COMMAND_CHECK_FN,
         botInfoMessage,
-        INTERVAL_REQUEST_API_AND_ANSWER_IN_CHAT,
-        db,
-        cronSaveCacheToDB
+        INTERVAL_REQUEST_API_ALIGULAC,
+        INTERVAL_RESPONSE_IN_CHAT,
+        db
     );
 })();

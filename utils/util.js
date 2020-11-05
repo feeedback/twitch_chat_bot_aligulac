@@ -1,4 +1,5 @@
 // import dayjs from 'dayjs';
+// const nowMs = () => dayjs().format('HH:mm:ss,SSS');
 
 const recognizeCommandFromMessageText = (message) => {
     const lowerCaseMessage = message.trim().toLowerCase();
@@ -18,32 +19,8 @@ const recognizeCommandFromMessageText = (message) => {
     return false;
 };
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // const now = () => dayjs().format('h:mm:ss');
-// const nowMs = () => dayjs().format('HH:mm:ss,SSS');
 
-const createQueueRequest = (interval) => {
-    const queue = [];
-    let isQueueRunning = false;
-
-    const doRequest = async (requestFn) => {
-        // считает интервал от поступления запроса, не дожидается выполнения,
-        // так что это в большей мере на ответ в чат ограничение
-        isQueueRunning = true;
-        const firstRequest = queue.shift();
-
-        if (!firstRequest) {
-            isQueueRunning = false;
-            return;
-        }
-
-        await requestFn(firstRequest);
-        sleep(interval).then(async () => {
-            await doRequest(requestFn);
-        });
-    };
-    return { queue, doRequest, isQueueRunning };
-};
 const channelFormat = (str) => {
     const channel = str.toLowerCase();
     return channel[0] === '#' ? channel : `#${channel}`;
@@ -52,8 +29,6 @@ const channelFormat = (str) => {
 export {
     recognizeCommandFromMessageText,
     channelFormat,
-    sleep,
-    createQueueRequest,
     // now,
     // nowMs,
 };

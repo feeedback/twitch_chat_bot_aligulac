@@ -4,7 +4,7 @@ import axios from 'axios';
 import jsdom from 'jsdom';
 
 const getDOMDocument = (data) => new jsdom.JSDOM(data).window.document;
-// const now = () => dayjs().format('HH:mm:ss,SSS');
+// const nowMs = () => dayjs().format('HH:mm:ss,SSS');
 
 const Aligulac = (_cacheNicknames, _cachePrediction) => {
     //
@@ -173,7 +173,6 @@ const Aligulac = (_cacheNicknames, _cachePrediction) => {
     };
 
     const formatRequestAndRequest = async (p1Name, p2Name) => {
-        // console.log(now(), 'request', p1Name, p2Name);
         const name1F = formatName(p1Name);
         const name2F = formatName(p2Name);
         if (name1F === name2F) {
