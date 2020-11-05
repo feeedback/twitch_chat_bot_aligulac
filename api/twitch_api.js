@@ -18,7 +18,7 @@ const request = async () => {
         );
         console.log('response :>> ', response);
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 };
 request();

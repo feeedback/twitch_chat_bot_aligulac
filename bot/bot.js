@@ -36,7 +36,7 @@ const createRequestFnChat = (client) => async ({
         );
         client.say(_channel, `@${_username} ${predictionStr}`);
     } catch (error) {
-        console.log(error);
+        console.log('createRequestFnChat error');
     }
 };
 
@@ -56,7 +56,7 @@ const createRequestFnAligulac = (_getAligulacPrediction) => async ({
         );
         return predictionStr;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         throw new Error(error);
     }
 };
