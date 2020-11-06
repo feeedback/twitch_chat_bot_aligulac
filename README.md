@@ -5,9 +5,11 @@ _\*статистика и предсказание исхода противо�
 ## Use
 
 Type in Twitch chat on stream by Starcraft 2: _(пока только определенные каналы, from channels list)_
+
 `!alig[ulac] name1 name2 (или !алиг[улак] name1 name2)`
 
 Получите ответ:
+
 `@username [p1Name] [%ChanceWin1] vs [%ChanceWin2] [p2Name] | [p1FOR] form vs opp. race [p2FOR] | [p1HEO] history vs each other [p2HEO]`
 
 ## Roadmap
