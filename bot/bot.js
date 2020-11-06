@@ -31,9 +31,7 @@ const createRequestFnChat = (client) => async ({
     predictionStr,
 }) => {
     try {
-        console.log(
-            `${channel} — @${username} — (${name1} vs ${name2}) — ответ возвращён в чат: ${predictionStr}`
-        );
+        console.log(`${channel} — @${username} — (${name1} vs ${name2}) — ответ возвращён в чат`);
         client.say(channel, `@${username} ${predictionStr}`);
     } catch (error) {
         console.log('createRequestFnChat error');
