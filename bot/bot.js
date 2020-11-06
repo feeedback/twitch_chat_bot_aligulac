@@ -24,57 +24,57 @@ const connectNewChannel = async (client, newChannel) => {
 };
 
 const createRequestFnChat = (client) => async ({
-    _channel,
-    _username,
+    channel,
+    username,
     name1,
     name2,
     predictionStr,
 }) => {
     try {
         console.log(
-            `${_channel} — @${_username} — (${name1} vs ${name2}) — ответ возвращён в чат: ${predictionStr}`
+            `${channel} — @${username} — (${name1} vs ${name2}) — ответ возвращён в чат: ${predictionStr}`
         );
-        client.say(_channel, `@${_username} ${predictionStr}`);
+        client.say(channel, `@${username} ${predictionStr}`);
     } catch (error) {
         console.log('createRequestFnChat error');
     }
 };
 
 const createRequestFnAligulac = (_getAligulacPrediction) => async ({
-    _channel,
-    _username,
+    channel,
+    username,
     name1,
     name2,
 }) => {
     console.log(
-        `${_channel} — @${_username} — (${name1} vs ${name2}) — выполняется запрос к Алигулак`
+        `${channel} — @${username} — (${name1} vs ${name2}) — выполняется запрос к Алигулак`
     );
     try {
         const predictionStr = await _getAligulacPrediction(name1, name2);
         console.log(
-            `${_channel} — @${_username} — (${name1} vs ${name2}) — ответ получен от Алигулак: ${predictionStr}`
+            `${channel} — @${username} — (${name1} vs ${name2}) — ответ получен от Алигулак: ${predictionStr}`
         );
         return predictionStr;
     } catch (error) {
         throw new Error(error);
     }
 };
+
 const queueAligulac = [];
-const queueChat = [];
+const queueChat = {};
 let isQueueRunningAligulac = false;
-let isQueueRunningChat = false;
+const isQueueRunningChat = {};
 
-const doRequestChat = (requestFn) => {
-    const firstRequest = queueChat.shift();
-
+const doRequestChat = (channel, requestFn) => {
+    const firstRequest = queueChat[channel].shift();
     if (!firstRequest) {
-        isQueueRunningChat = false;
+        isQueueRunningChat[channel] = false;
         return;
     }
 
     requestFn(firstRequest);
-    setTimeout(doRequestChat, INTERVAL_RESPONSE_IN_CHAT, requestFn);
-    isQueueRunningChat = true;
+    setTimeout(doRequestChat, INTERVAL_RESPONSE_IN_CHAT, channel, requestFn);
+    isQueueRunningChat[channel] = true;
 };
 const doRequestAligulac = (requestFn, requestFnChat) => {
     const firstRequest = queueAligulac.shift();
@@ -84,18 +84,22 @@ const doRequestAligulac = (requestFn, requestFnChat) => {
         return;
     }
 
+    const { channel } = firstRequest;
     requestFn(firstRequest)
         .then((predictionStr) => {
             if (!predictionStr) {
                 return;
             }
-            queueChat.push({ ...firstRequest, predictionStr });
-            if (!isQueueRunningChat) {
-                doRequestChat(requestFnChat);
+            if (!Array.isArray(queueChat[channel])) {
+                queueChat[channel] = [];
+            }
+            queueChat[channel].push({ ...firstRequest, predictionStr });
+            if (isQueueRunningChat[channel] !== true) {
+                doRequestChat(channel, requestFnChat);
             }
         })
         .catch(() => {});
-    setTimeout(doRequestAligulac, INTERVAL_REQUEST_API_ALIGULAC, requestFn);
+    setTimeout(doRequestAligulac, INTERVAL_REQUEST_API_ALIGULAC, requestFn, requestFnChat);
     isQueueRunningAligulac = true;
 };
 const botRun = async (client, getAligulacPrediction, COMMAND_CHECK_FN, botInfoMessage, db) => {
@@ -147,12 +151,11 @@ const botRun = async (client, getAligulacPrediction, COMMAND_CHECK_FN, botInfoMe
             );
 
             queueAligulac.push({
-                _channel: channel,
-                _username: tags.username,
+                channel,
+                username: tags.username,
                 name1: player1Name,
                 name2: player2Name,
             });
-
             if (!isQueueRunningAligulac) {
                 doRequestAligulac(requestFnAligulac, requestFnChat);
             }

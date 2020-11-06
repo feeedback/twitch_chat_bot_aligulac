@@ -19,6 +19,7 @@ const clientTmiSettings = {
     channels: [
         // my
         'risok',
+        'aligulac_bot',
         // // ru
         'sc2mc_ru',
         // // // ru community
@@ -71,14 +72,14 @@ const settings = {
     INTERVAL_RESPONSE_IN_CHAT: 5000,
     CACHE_LENGTH_NICKNAMES: 10000,
     CACHE_LENGTH_PREDICTIONS: 3000,
-    CACHE_TTL_SEC_NICKNAMES: 60 * 60 * 24 * 50, // 50 суток
+    CACHE_TTL_SEC_NICKNAMES: 60 * 60 * 24 * 60, // 60 суток
     // (если вдруг появиться новый игрок, или в алигулаке что-то смениться)
-    CACHE_TTL_SEC_PREDICTIONS: 60 * 60 * 24 * 2, // 2 суток
+    CACHE_TTL_SEC_PREDICTIONS: 60 * 60 * 24 * 3, // 2 суток
     botInfoMessage: {
         isShow: true,
         textMessage: `Hi, I'm doing prediction. Use me: !alig[ulac] name1 name2`,
         //  `Hi, I'm doing prediction. Use me: !alig[ulac] name1 name2 (only progamers)`,
-        intervalMs: 1000 * 60 * 60 * 24 * 5, // 5 суток
+        intervalMs: 1000 * 60 * 60 * 24 * 7, // 7 суток
         filePath: path.join(process.cwd(), './cache/last_bot_info_message.json'),
     },
 };
