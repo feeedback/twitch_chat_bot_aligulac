@@ -31,7 +31,11 @@ const createRequestFnChat = (client) => async ({
     predictionStr,
 }) => {
     try {
-        console.log(`${channel} — @${username} — (${name1} vs ${name2}) — ответ возвращён в чат`);
+        console.log(
+            `${channel} — @${username} — (${name1} vs ${name2}) — |1 per ${Math.round(
+                INTERVAL_RESPONSE_IN_CHAT / 1000
+            )}s| ответ возвращён в чат`
+        );
         client.say(channel, `@${username} ${predictionStr}`);
     } catch (error) {
         console.log('createRequestFnChat error');
@@ -45,14 +49,14 @@ const createRequestFnAligulac = (_getAligulacPrediction) => async ({
     name2,
 }) => {
     console.log(
-        `${channel} — @${username} — (${name1} vs ${name2}) — выполняется запрос к Алигулак`
+        `${channel} — @${username} — (${name1} vs ${name2}) — |1 per ${Math.round(
+            INTERVAL_REQUEST_API_ALIGULAC / 1000
+        )}s| выполняется запрос к Алигулак`
     );
     try {
         const predictionStr = await _getAligulacPrediction(name1, name2);
         console.log(
-            `${channel} — @${username} — (${name1} vs ${name2}) — ~ +${Math.round(
-                INTERVAL_RESPONSE_IN_CHAT / 1000
-            )}s ответ получен от Алигулак: ${predictionStr}`
+            `${channel} — @${username} — (${name1} vs ${name2}) — ответ получен от Алигулак: ${predictionStr}`
         );
         return predictionStr;
     } catch (error) {
@@ -147,11 +151,7 @@ const botRun = async (client, getAligulacPrediction, COMMAND_CHECK_FN, botInfoMe
                 return;
             }
             console.log(
-                `${channel} — @${
-                    tags.username
-                } — (${player1Name} vs ${player2Name}) — ~ +${Math.round(
-                    INTERVAL_REQUEST_API_ALIGULAC / 1000
-                )}s получена команда`
+                `${channel} — @${tags.username} — (${player1Name} vs ${player2Name}) — получена команда`
             );
 
             queueAligulac.push({
