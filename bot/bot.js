@@ -50,7 +50,7 @@ const createRequestFnAligulac = (_getAligulacPrediction) => async ({
     try {
         const predictionStr = await _getAligulacPrediction(name1, name2);
         console.log(
-            `${channel} — @${username} — (${name1} vs ${name2}) — ответ получен от Алигулак: ${predictionStr}`
+            `${channel} — @${username} — (${name1} vs ${name2}) — ответ получен от Алигулак: ${predictionStr} ~ +5s`
         );
         return predictionStr;
     } catch (error) {
@@ -145,7 +145,7 @@ const botRun = async (client, getAligulacPrediction, COMMAND_CHECK_FN, botInfoMe
                 return;
             }
             console.log(
-                `${channel} — @${tags.username} — (${player1Name} vs ${player2Name}) — получена команда`
+                `${channel} — @${tags.username} — (${player1Name} vs ${player2Name}) — получена команда ~ +1s`
             );
 
             queueAligulac.push({
