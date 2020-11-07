@@ -5,7 +5,7 @@ import tmiJs from 'tmi.js';
 import botSettings from './bot/settings.js';
 import MemoryStore from './cache/memory_cache.js';
 import db from './cache/db.js';
-import Aligulac from './api/aligulac_api.js';
+import initAligulac from './api/aligulac_api.js';
 import botRun from './bot/bot.js';
 
 const { clientTmiSettings, COMMAND_CHECK_FN, cache, botInfoMessage } = botSettings;
@@ -65,7 +65,7 @@ const cronSaveCacheToDB = async (intervalMs, cacheNicknames, cachePredictions, c
 
   cronSaveCacheToDB(cache.INTERVAL_SAVE_CACHE_TO_DB, cacheNickname, cachePrediction, cachePlayerInfo);
 
-  const apiAligulac = Aligulac(cacheNickname, cachePrediction, cachePlayerInfo);
+  const apiAligulac = initAligulac(cacheNickname, cachePrediction, cachePlayerInfo);
 
   const client = new tmiJs.Client(clientTmiSettings);
 

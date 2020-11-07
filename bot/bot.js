@@ -89,7 +89,7 @@ const doRequestChat = (channel, requestFn) => {
   setTimeout(doRequestChat, INTERVAL_RESPONSE_IN_CHAT, channel, requestFn);
   isQueueRunningChat[channel] = true;
 };
-const doRequestAligulacPrediction = (requestFnPrediction, requestFnPlayer, requestFnChat) => {
+const doRequestAligulac = (requestFnPrediction, requestFnPlayer, requestFnChat) => {
   const firstRequest = queueAligulac.shift();
 
   if (!firstRequest) {
@@ -103,7 +103,6 @@ const doRequestAligulacPrediction = (requestFnPrediction, requestFnPlayer, reque
   if (name2 === null) {
     requestAligulac = requestFnPlayer;
   }
-
   requestAligulac(firstRequest)
     .then((resStr) => {
       if (!resStr) {
@@ -120,7 +119,7 @@ const doRequestAligulacPrediction = (requestFnPrediction, requestFnPlayer, reque
     .catch(() => {});
 
   setTimeout(
-    doRequestAligulacPrediction,
+    doRequestAligulac,
     INTERVAL_REQUEST_API_ALIGULAC,
     requestFnPrediction,
     requestFnPlayer,
@@ -131,7 +130,7 @@ const doRequestAligulacPrediction = (requestFnPrediction, requestFnPlayer, reque
 
 const botRun = async (client, apiAligulac, COMMAND_CHECK_FN, botInfoMessage, db) => {
   await client.connect();
-  console.log(`twitch_chat_bot_aligulac бот запущен`);
+  console.log(`Бот запущен`);
 
   const requestFnChat = createRequestFnChat(client);
   const requestFnAligulacPrediction = createRequestFnAligulacPrediction(apiAligulac.requestPrediction);
@@ -185,7 +184,7 @@ const botRun = async (client, apiAligulac, COMMAND_CHECK_FN, botInfoMessage, db)
           name2: player2Name,
         });
         if (!isQueueRunningAligulac) {
-          doRequestAligulacPrediction(requestFnAligulacPrediction, requestFnAligulacPlayer, requestFnChat);
+          doRequestAligulac(requestFnAligulacPrediction, requestFnAligulacPlayer, requestFnChat);
         }
         return;
       }

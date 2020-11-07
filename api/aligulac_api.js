@@ -37,7 +37,6 @@ const getFromCache = (cache, twoKey = false) => async (key, requestFn, getDataFn
       console.log('Aligulac server error');
     }
     const ItemValue = await getDataFn(response, key);
-
     cache.setItem(keyToCache, ItemValue);
     return ItemValue;
   } catch (error) {
@@ -165,10 +164,9 @@ const getStringFromInfoPlayerHtml = (document) => {
     Team: (str) => `(${str}) `,
     // Birthday: (str) => `${Math.floor((new Date() - new Date(str)) / (1000 * 60 * 60 * 24 * 365))} y.o. `,
     Birthday: (born) => `${dayjs().diff(born, 'years')} y.o. `,
-    'Total earnings': (str) => `$${Math.round(Number(str.slice(1).replaceAll(',', '')) / 1000)}k`,
+    'Total earnings': (str) => `$${Math.round(Number(str.slice(1).replace(/,/g, '')) / 1000)}k`,
     'Matches played': (str) => str.split(' ')[0],
   };
-
   const rows = [...tableBio.rows].slice(1);
 
   const info = Object.fromEntries(
@@ -177,9 +175,11 @@ const getStringFromInfoPlayerHtml = (document) => {
       if (!row) {
         return [trLabel, ''];
       }
-      return [trLabel, fnFormat(getText(row.cells[1]))];
+      const value = fnFormat(getText(row.cells[1]));
+      return [trLabel, value];
     })
   );
+
   const tableForm = document.querySelector('#form table');
   const formRows = [...tableForm.rows].slice(1);
   const form = formRows
@@ -246,7 +246,7 @@ const getPlayerInfoString = async (getFromCacheNicknames, getFromCachePlayerInfo
   }
 };
 
-const AligulacInit = async (_cacheNickname, _cachePrediction, _cachePlayerInfo) => {
+const initAligulac = (_cacheNickname, _cachePrediction, _cachePlayerInfo) => {
   const getFromCacheNickname = getFromCache(_cacheNickname);
   const getFromCachePrediction = getFromCache(_cachePrediction, true);
   const getFromCachePlayerInfo = getFromCache(_cachePlayerInfo);
@@ -291,4 +291,4 @@ const AligulacInit = async (_cacheNickname, _cachePrediction, _cachePlayerInfo) 
 
   return { requestPrediction, requestPlayerInfo };
 };
-export default AligulacInit;
+export default initAligulac;
