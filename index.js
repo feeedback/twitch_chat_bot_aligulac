@@ -8,16 +8,7 @@ import db from './cache/db.js';
 import Aligulac from './api/aligulac_api.js';
 import botRun from './bot/bot.js';
 
-const {
-  clientTmiSettings,
-  COMMAND_CHECK_FN,
-  INTERVAL_SAVE_CACHE_TO_DB,
-  CACHE_LENGTH_NICKNAMES,
-  CACHE_LENGTH_PREDICTIONS,
-  CACHE_TTL_SEC_NICKNAMES,
-  CACHE_TTL_SEC_PREDICTIONS,
-  botInfoMessage,
-} = botSettings;
+const { clientTmiSettings, COMMAND_CHECK_FN, cache, botInfoMessage } = botSettings;
 
 const getCache = (cacheLength, ttlSec, Model, recordName) => async () => {
   const oldCache = await db.ops.findOne(Model, recordName);
@@ -27,17 +18,23 @@ const getCache = (cacheLength, ttlSec, Model, recordName) => async () => {
   }
   return new MemoryStore(cacheLength, ttlSec);
 };
-const getCacheNicknames = getCache(
-  CACHE_LENGTH_NICKNAMES,
-  CACHE_TTL_SEC_NICKNAMES,
+const getCacheNickname = getCache(
+  cache.nicknames.LENGTH,
+  cache.nicknames.TTL_SEC,
   db.models.Nicknames,
   'nicknames'
 );
-const getCachePredictions = getCache(
-  CACHE_LENGTH_PREDICTIONS,
-  CACHE_TTL_SEC_PREDICTIONS,
+const getCachePrediction = getCache(
+  cache.predictions.LENGTH,
+  cache.predictions.TTL_SEC,
   db.models.Predictions,
   'predictions'
+);
+const getCachePlayersInfo = getCache(
+  cache.predictions.LENGTH,
+  cache.predictions.TTL_SEC,
+  db.models.Predictions,
+  'playerInfo'
 );
 
 const getFromDBChannelsLastMessageTime = async () => {
@@ -51,25 +48,27 @@ const getFromDBChannelsLastMessageTime = async () => {
   }
   return channelsLastMessageTime;
 };
-const cronSaveCacheToDB = async (intervalMs, cacheNicknames, cachePredictions) => {
+const cronSaveCacheToDB = async (intervalMs, cacheNicknames, cachePredictions, cachePlayerInfo) => {
   await db.ops.findOneAndUpdate2(db.models.Nicknames, 'nicknames', cacheNicknames.store);
   await db.ops.findOneAndUpdate2(db.models.Predictions, 'predictions', cachePredictions.store);
+  await db.ops.findOneAndUpdate2(db.models.PlayersInfo, 'playerInfo', cachePlayerInfo.store);
 
   setTimeout(() => {
-    cronSaveCacheToDB(intervalMs, cacheNicknames, cachePredictions);
+    cronSaveCacheToDB(intervalMs, cacheNicknames, cachePredictions, cachePlayerInfo);
   }, intervalMs);
 };
 
 (async () => {
-  const cacheNicknames = await getCacheNicknames();
-  const cachePredictions = await getCachePredictions();
+  const cacheNickname = await getCacheNickname();
+  const cachePrediction = await getCachePrediction();
+  const cachePlayerInfo = await getCachePlayersInfo();
 
-  cronSaveCacheToDB(INTERVAL_SAVE_CACHE_TO_DB, cacheNicknames, cachePredictions);
+  cronSaveCacheToDB(cache.INTERVAL_SAVE_CACHE_TO_DB, cacheNickname, cachePrediction, cachePlayerInfo);
 
-  const getAligulacPrediction = Aligulac(cacheNicknames, cachePredictions);
+  const apiAligulac = Aligulac(cacheNickname, cachePrediction, cachePlayerInfo);
 
   const client = new tmiJs.Client(clientTmiSettings);
 
   botInfoMessage.channelsLastMessageTime = await getFromDBChannelsLastMessageTime();
-  botRun(client, getAligulacPrediction, COMMAND_CHECK_FN, botInfoMessage, db);
+  botRun(client, apiAligulac, COMMAND_CHECK_FN, botInfoMessage, db);
 })();

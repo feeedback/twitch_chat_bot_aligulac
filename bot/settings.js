@@ -65,14 +65,23 @@ const settings = {
     isAddChannelToBot: (commandStr, username) =>
       commandStr === 'add_channel_to_bot' && username === ADMIN_USERNAME,
   },
-  INTERVAL_SAVE_CACHE_TO_DB: 1000 * 60 * 5, // раз в 5 минут
+  cache: {
+    INTERVAL_SAVE_CACHE_TO_DB: 1000 * 60 * 5, // раз в 5 минут
+    nicknames: {
+      LENGTH: 10000,
+      TTL_SEC: 60 * 60 * 24 * 60, // 60 суток
+    },
+    predictions: {
+      LENGTH: 3000,
+      TTL_SEC: 60 * 60 * 24 * 3, // 3 суток
+    },
+    players_info: {
+      LENGTH: 2000,
+      TTL_SEC: 60 * 60 * 24 * 3, // 3 суток
+    },
+  },
   INTERVAL_REQUEST_API_ALIGULAC: 1000,
   INTERVAL_RESPONSE_IN_CHAT: 5000,
-  CACHE_LENGTH_NICKNAMES: 10000,
-  CACHE_LENGTH_PREDICTIONS: 3000,
-  CACHE_TTL_SEC_NICKNAMES: 60 * 60 * 24 * 60, // 60 суток
-  // (если вдруг появиться новый игрок, или в алигулаке что-то смениться)
-  CACHE_TTL_SEC_PREDICTIONS: 60 * 60 * 24 * 3, // 2 суток
   botInfoMessage: {
     isShow: true,
     textMessage: `Hi, I'm doing prediction. Use me: !alig[ulac] name1 name2`,
