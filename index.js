@@ -1,9 +1,9 @@
 /* eslint-disable guard-for-in */
 // import { promises as fsp } from 'fs';
-import tmiJs from 'tmi.js';
 // import path from 'path';
+import tmiJs from 'tmi.js';
 import botSettings from './bot/settings.js';
-import MemoryStore from './cache/memoryCache.js';
+import MemoryStore from './cache/memory_cache.js';
 import db from './cache/db.js';
 import Aligulac from './api/aligulac_api.js';
 import botRun from './bot/bot.js';
@@ -27,7 +27,12 @@ const getCache = (cacheLength, ttlSec, Model, recordName) => async () => {
   }
   return new MemoryStore(cacheLength, ttlSec);
 };
-const getCacheNicknames = getCache(CACHE_LENGTH_NICKNAMES, CACHE_TTL_SEC_NICKNAMES, db.models.Nicknames, 'nicknames');
+const getCacheNicknames = getCache(
+  CACHE_LENGTH_NICKNAMES,
+  CACHE_TTL_SEC_NICKNAMES,
+  db.models.Nicknames,
+  'nicknames'
+);
 const getCachePredictions = getCache(
   CACHE_LENGTH_PREDICTIONS,
   CACHE_TTL_SEC_PREDICTIONS,

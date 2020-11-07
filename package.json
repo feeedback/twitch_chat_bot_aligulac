@@ -1,41 +1,40 @@
 {
-    "name": "aligulac_bot",
-    "version": "1.0.0",
-    "description": "Twitch чат-бот для использования сервиса Aligulac (статистика и предсказание исхода противостояний киберспортсменов по Starcraft 2)",
-    "main": "index.js",
-    "type": "module",
-    "scripts": {
-        "localStart": "node index.js",
-        "start": "node index.js",
-        "pushHeroku": "git push heroku main",
-        "startHeroku": "heroku ps:scale web=0 worker=1",
-        "logsHeroku": "heroku logs -t",
-        "statusHeroku": "heroku ps",
-        "stopHeroku": "heroku ps:scale web=0 worker=0"
-    },
-    "author": "Alexander R. (https://risok.now.sh)",
-    "license": "GPL-2.0",
-    "dependencies": {
-        "axios": "^0.21.0",
-        "dotenv": "^8.2.0",
-        "jsdom": "^16.4.0",
-        "mongoose": "^5.10.11",
-        "nanoid": "^3.1.16",
-        "tmi.js": "^1.5.0"
-    },
-    "devDependencies": {
-        "@types/tmi.js": "^1.4.2",
-        "dayjs": "^1.9.5"
-    },
-    "engines": {
-        "node": "14.x"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/feeedback/twitch_chat_bot_aligulac.git"
-    },
-    "bugs": {
-        "url": "https://github.com/feeedback/twitch_chat_bot_aligulac/issues"
-    },
-    "homepage": "https://github.com/feeedback/twitch_chat_bot_aligulac#readme"
+  "name": "aligulac_bot",
+  "version": "1.0.0",
+  "description": "Twitch чат-бот для использования сервиса Aligulac (статистика и предсказание исхода противостояний киберспортсменов по Starcraft 2)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",    
+    "heroku_logs": "heroku logs -t",
+    "heroku_push": "git push heroku main",
+    "heroku_run": "heroku ps:scale web=0 worker=1",
+    "heroku_stop": "heroku ps:scale web=0 worker=0",    
+    "heroku_status": "heroku ps"
+  },
+  "author": "Alexander R. (https://risok.now.sh)",
+  "license": "GPL-2.0",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "dotenv": "^8.2.0",
+    "jsdom": "^16.4.0",
+    "mongoose": "^5.10.13",
+    "nanoid": "^3.1.16",
+    "tmi.js": "^1.5.0"
+  },
+  "devDependencies": {
+    "@types/tmi.js": "^1.4.2",
+    "dayjs": "^1.9.5"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feeedback/twitch_chat_bot_aligulac.git"
+  },
+  "bugs": {
+    "url": "https://github.com/feeedback/twitch_chat_bot_aligulac/issues"
+  },
+  "homepage": "https://github.com/feeedback/twitch_chat_bot_aligulac#readme"
 }
