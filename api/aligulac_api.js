@@ -137,10 +137,11 @@ const getStringFromInfoPlayerHtml = (document) => {
   );
 
   const name = getText(tableBio.rows[0]);
+  const inactive = document.querySelector('.pull-left ~ * strong');
 
   const trNames = {
     Race: (str) => str[0],
-    // Country: null,
+    'Last match': (str) => str,
     Rank: (str) => {
       const ranks = str
         .replace(/\n/g, '')
@@ -164,7 +165,15 @@ const getStringFromInfoPlayerHtml = (document) => {
     Team: (str) => `(${str}) `,
     // Birthday: (str) => `${Math.floor((new Date() - new Date(str)) / (1000 * 60 * 60 * 24 * 365))} y.o. `,
     Birthday: (born) => `${dayjs().diff(born, 'years')} y.o. `,
-    'Total earnings': (str) => `$${Math.round(Number(str.slice(1).replace(/,/g, '')) / 1000)}k`,
+    'Total earnings': (str) => {
+      const dollars = Number(str.slice(1).replace(/,/g, ''));
+      if (!dollars) {
+        return `$0`;
+      }
+      const thousand =
+        dollars < 1000 ? `$${(dollars / 1000).toFixed(1)}k` : `$${Math.round(dollars / 1000)}k`;
+      return thousand;
+    },
     'Matches played': (str) => str.split(' ')[0],
   };
   const rows = [...tableBio.rows].slice(1);
@@ -187,7 +196,11 @@ const getStringFromInfoPlayerHtml = (document) => {
     .filter(([, percent]) => percent !== '0%');
   const formStr = form.map(([title, percent]) => `${title} ${percent}`).join(' ');
 
-  const str = `${info['Team']}${name} [${info['Race']}] ${info['Birthday']}| ${info['Rank']} | matches ${info['Matches played']} | earned ${info['Total earnings']} | form ${formStr}`;
+  const rankOrInactive = inactive ? `Inactive since ${info['Last match']}` : info['Rank'];
+  const formOrInactive = inactive ? `` : ` | form ${formStr}`;
+  const earnedStr = info['Total earnings'] ? ` | earned ${info['Total earnings']}` : '';
+  const matchesStr = info['Matches played'] ? ` | matches ${info['Matches played']}` : '';
+  const str = `${info['Team']}${name} [${info['Race']}] ${info['Birthday']}| ${rankOrInactive}${matchesStr}${earnedStr}${formOrInactive}`;
   return str;
 };
 
