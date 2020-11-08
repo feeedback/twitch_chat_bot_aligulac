@@ -37,13 +37,13 @@ const clientTmiSettings = {
     'fallengersc2',
     // // en
     'starcraft',
-    'esl_sc2', // БАН
-    'esl_sc2b',
+    // 'esl_sc2', // БАН
+    // 'esl_sc2b', // БАН
     // // 'wesg_sc2', // inactive stream
     // // en & other community
-    'wardiii', // БАН
+    // 'wardiii', // БАН
     'indystarcraft',
-    'taketv', // БАН
+    // 'taketv', // БАН
     'ogamingsc2',
     'twitchplayssc',
     'wintergaming',
