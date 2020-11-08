@@ -18,40 +18,40 @@ const clientTmiSettings = {
   channels: [
     // my
     'risok',
-    // 'aligulac_bot',
+    'aligulac_bot',
     // // ru
-    'sc2mc_ru',
-    // // // ru community
-    '3dclanru',
-    // 'alex007sc2',
-    // // 'starladder_sc2_ru', // inactive stream
-    // // ru speaking progamers
-    'dimaga',
-    'kasmatuy',
-    'pavelbratok',
-    'blyonfire',
-    'BassetSC',
-    'skilloussc2',
-    'zippzipper',
-    // 'sc2vanya', // inactive stream
-    'fallengersc2',
-    // // en
-    'starcraft',
-    'esl_sc2', // БАН
-    'esl_sc2b',
-    // // 'wesg_sc2', // inactive stream
-    // // en & other community
-    'wardiii', // БАН
-    'indystarcraft',
-    'taketv', // БАН
-    'ogamingsc2',
-    'twitchplayssc',
-    'wintergaming',
-    // // en & other progamers
-    'special_',
-    'harstem',
-    'heromarine',
-    'ninasc2',
+    // 'sc2mc_ru',
+    // // // // ru community
+    // '3dclanru',
+    // // 'alex007sc2',
+    // // // 'starladder_sc2_ru', // inactive stream
+    // // // ru speaking progamers
+    // 'dimaga',
+    // 'kasmatuy',
+    // 'pavelbratok',
+    // 'blyonfire',
+    // 'BassetSC',
+    // 'skilloussc2',
+    // 'zippzipper',
+    // // 'sc2vanya', // inactive stream
+    // 'fallengersc2',
+    // // // en
+    // 'starcraft',
+    // 'esl_sc2', // БАН
+    // 'esl_sc2b',
+    // // // 'wesg_sc2', // inactive stream
+    // // // en & other community
+    // 'wardiii', // БАН
+    // 'indystarcraft',
+    // 'taketv', // БАН
+    // 'ogamingsc2',
+    // 'twitchplayssc',
+    // 'wintergaming',
+    // // // en & other progamers
+    // 'special_',
+    // 'harstem',
+    // 'heromarine',
+    // 'ninasc2',
   ],
 };
 
@@ -64,6 +64,9 @@ const settings = {
 
     isAddChannelToBot: (commandStr, username) =>
       commandStr === 'add_channel_to_bot' && username === ADMIN_USERNAME,
+
+    isRemoveChannelFromBot: (commandStr, username) =>
+      commandStr === 'remove_channel_from_bot' && username === ADMIN_USERNAME,
   },
   cache: {
     INTERVAL_SAVE_CACHE_TO_DB: 1000 * 60 * 5, // раз в 5 минут

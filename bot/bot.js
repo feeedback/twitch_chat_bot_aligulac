@@ -21,6 +21,24 @@ const connectNewChannel = async (client, newChannel) => {
   }
 };
 
+const leaveFromChannel = async (client, channel) => {
+  const channelF = channelFormat(channel);
+
+  if (!client.channels.includes(channelF)) {
+    console.log('Ничего не делаю. К этому', channelF, 'каналу итак НЕ подключён');
+    return;
+  }
+  // eslint-disable-next-line no-param-reassign
+  client.channels = client.channels.filter((ch) => ch !== channelF);
+
+  try {
+    await client.part(channelF);
+    console.log('Ушли с канала', channelF, '!');
+  } catch (error) {
+    client.log.error(error);
+  }
+};
+
 const createRequestFnChat = (client) => async ({ channel, username, name1, name2 = null, resStr }) => {
   try {
     const interval = Math.round(INTERVAL_RESPONSE_IN_CHAT / 1000);
@@ -197,6 +215,15 @@ const botRun = async (client, apiAligulac, COMMAND_CHECK_FN, botInfoMessage, db)
         return;
       }
       await connectNewChannel(client, newChannel);
+      return;
+    }
+
+    if (COMMAND_CHECK_FN.isRemoveChannelFromBot(command, tags.username)) {
+      const [channelToRemove = null] = args;
+      if (channelToRemove === null) {
+        return;
+      }
+      await leaveFromChannel(client, channelToRemove);
     }
   });
 };
