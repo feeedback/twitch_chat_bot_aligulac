@@ -194,7 +194,7 @@ const getStringFromInfoPlayerHtml = (document) => {
   const form = formRows
     .map((row) => [getText(row.cells[0]), getOnlyIntPercent(getText(row.cells[1]).split(' ')[0])])
     .filter(([, percent]) => percent !== '0%');
-  const formStr = form.map(([title, percent]) => `${title}:${percent}`).join(' ');
+  const formStr = form.map(([title, percent]) => `${title}·${percent}`).join(' ');
 
   const rankOrInactive = inactive ? `Inactive since ${info['Last match']}` : info['Rank'];
   const formOrInactive = inactive ? `` : ` | form ${formStr}`;
