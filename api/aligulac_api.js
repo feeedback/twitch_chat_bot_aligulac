@@ -197,7 +197,7 @@ const getStringFromInfoPlayerHtml = (document) => {
   const formStr = form.map(([title, percent]) => `${title}·${percent}`).join(' ');
 
   const rankOrInactive = inactive ? `Inactive since ${info['Last match']}` : info['Rank'];
-  const formOrInactive = inactive ? `` : ` | form ${formStr}`;
+  const formOrInactive = (inactive || !formStr) ? `` : ` | form ${formStr}`;
   const earnedStr = info['Total earnings'] ? ` | earned ${info['Total earnings']}` : '';
   const matchesStr = info['Matches played'] ? ` | matches ${info['Matches played']}` : '';
   const str = `${info['Team']}${name} [${info['Race']}] ${info['Birthday']}| ${rankOrInactive}${matchesStr}${earnedStr}${formOrInactive}`;
