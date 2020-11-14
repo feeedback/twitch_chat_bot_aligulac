@@ -29,8 +29,8 @@ const getCachePrediction = getCache(
 const getCachePlayersInfo = getCache(
   cache.predictions.LENGTH,
   cache.predictions.TTL_SEC,
-  db.models.Predictions,
-  'playerInfo'
+  db.models.PlayersInfo,
+  'players_info'
 );
 
 const getFromDBChannelsLastMessageTime = async () => {
@@ -45,7 +45,7 @@ const getFromDBChannelsLastMessageTime = async () => {
 const cronSaveCacheToDB = async (intervalMs, cacheNicknames, cachePredictions, cachePlayerInfo) => {
   await db.ops.findOneAndUpdate2(db.models.Nicknames, 'nicknames', cacheNicknames.store);
   await db.ops.findOneAndUpdate2(db.models.Predictions, 'predictions', cachePredictions.store);
-  await db.ops.findOneAndUpdate2(db.models.PlayersInfo, 'playerInfo', cachePlayerInfo.store);
+  await db.ops.findOneAndUpdate2(db.models.PlayersInfo, 'players_info', cachePlayerInfo.store);
 
   setTimeout(() => {
     cronSaveCacheToDB(intervalMs, cacheNicknames, cachePredictions, cachePlayerInfo);

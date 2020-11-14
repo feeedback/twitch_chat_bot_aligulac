@@ -4,7 +4,7 @@ dotenv.config();
 
 const clientTmiSettings = {
   options: {
-    debug: process.env.DEBUG_TMI || false,
+    debug: process.env.DEBUG_TMI,
   },
   connection: {
     secure: true,
