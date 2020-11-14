@@ -46,7 +46,7 @@ const channelsBotLastMessageSchema = new mongoose.Schema({
 mongoose.connect(process.env.MD_URI, { useNewUrlParser: true, useFindAndModify: false });
 const Nicknames = mongoose.model('progamers_nickname', cacheSchema);
 const Predictions = mongoose.model('games_predictions', cacheSchema);
-const PlayersInfo = mongoose.model('players_info', cacheSchema);
+const PlayersInfo = mongoose.model('players_info', cacheSchema); //
 const ChannelsBotLastMessage = mongoose.model('bot_info_last_messages_time', channelsBotLastMessageSchema);
 
 const dbModels = { Nicknames, Predictions, PlayersInfo, ChannelsBotLastMessage };
