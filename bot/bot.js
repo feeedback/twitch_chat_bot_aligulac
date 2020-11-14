@@ -163,11 +163,15 @@ const botRun = async (client, apiAligulac, COMMAND_CHECK_FN, botInfoMessage, db)
       const time = botInfoMessage.channelsLastMessageTime[channel];
 
       if (!time || Date.now() > new Date(time).getTime() + botInfoMessage.intervalMs) {
-        console.log(`${channel} — JOIN — Пишу о боте в чат`);
-        client.say(channel, `${botInfoMessage.textMessage}`);
-
         // eslint-disable-next-line no-param-reassign
         botInfoMessage.channelsLastMessageTime[channel] = new Date().toISOString();
+        console.log(`${channel} — JOIN — Пишу о боте в чат`);
+        try {
+          client.say(channel, `${botInfoMessage.textMessage}`);
+        } catch (error) {
+          console.log(`${channel} — Не вышло написать о боте — ${error}`);
+        }        
+
         await db.ops.findOneAndUpdate(db.models.ChannelsBotLastMessage, channel);
       }
     }

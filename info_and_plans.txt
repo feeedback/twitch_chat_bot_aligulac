@@ -17,28 +17,8 @@ https://dev.twitch.tv/console/extensions
 https://dev.twitch.tv/docs/authentication#getting-tokens
 
 Делать ли ответ в чат, что не найден ник или неправильный формат запроса?
-Пока думаю - нет, т.к. в чатах есть ограничение на количество сообщений, могут дать мут или бан
-Надо или переодически отвечать такой информацией,
- или просто её куда-то периодически писать
- (но тут надо аккуратно, чтоб не забанили за рекламу бота)
-
-
-Hello, I'm Aligulaс prediction bot. Use me: !alig[ulac] name1 name2.
-Searches only for progamers. If inactive, statistics will lie.
-периодически (раз в 6  час) отправлять инфу во все каналы )???
-
+Пока думаю - нет, т.к. в чатах есть ограничение на количество сообщений
 
 Only English letters, numbers, -, _. At least 2 chars.
 Better type nicknames starting from the 1st char (but not always necessarily to end).
  Ex: Nee - OK, Neb, eeb - NOT OK
-
-// описание канала
-Aliguilac prediction bot by @risok — !alig[ulac] name1 name2 (или !алиг[улак])
-ссылка на гитхаб
-
-
-// для aligulac_api:
-// cache должен иметь 4 команды: .isHas(key), .getItem(key), setItem(key, value), .renewItem(key);
-// setItem - автоматически проверяет на заполненность, и добавляет вместо самого старого.
-// renewItem - удаляет со старого места и добавляет последним.
-// можно написать обёртку для другого вида кэша, например, базы данных, в облаке, или на диске

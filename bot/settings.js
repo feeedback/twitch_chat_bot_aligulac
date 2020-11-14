@@ -1,11 +1,10 @@
 import dotenv from 'dotenv';
-import path from 'path';
 
 dotenv.config();
 
 const clientTmiSettings = {
   options: {
-    debug: process.env.DEBUG_TMI,
+    debug: process.env.DEBUG_TMI || false,
   },
   connection: {
     secure: true,
@@ -69,10 +68,10 @@ const settings = {
       commandStr === 'remove_channel_from_bot' && username === ADMIN_USERNAME,
   },
   cache: {
-    INTERVAL_SAVE_CACHE_TO_DB: 1000 * 60 * 5, // раз в 5 минут
+    INTERVAL_SAVE_CACHE_TO_DB: 1000 * 60 * 60 * 1, // раз 1 час в облако
     nicknames: {
       LENGTH: 10000,
-      TTL_SEC: 60 * 60 * 24 * 60, // 60 суток
+      TTL_SEC: 60 * 60 * 24 * 90, // 90 суток
     },
     predictions: {
       LENGTH: 3000,
@@ -87,10 +86,9 @@ const settings = {
   INTERVAL_RESPONSE_IN_CHAT: 5000,
   botInfoMessage: {
     isShow: true,
-    textMessage: `Hi. Use me, player info: !alig name, prediction: !alig name1 name2`,
-    //  `Hi, I'm doing prediction. Use me: !alig[ulac] name1 name2 (only progamers)`,
-    intervalMs: 1000 * 60 * 60 * 24 * 7, // 7 суток
-    filePath: path.join(process.cwd(), './cache/last_bot_info_message.json'),
+    textMessage: 'Hi. Player info: !alig name, prediction: !alig name1 name2',
+    // убрал "Use me", чтобы более нейтрально и пресно выглядело для вахтёров модеров
+    intervalMs: 1000 * 60 * 60 * 24 * 14, // 2 недели
   },
 };
 
