@@ -68,7 +68,7 @@ const settings = {
       commandStr === 'remove_channel_from_bot' && username === ADMIN_USERNAME,
   },
   cache: {
-    INTERVAL_SAVE_CACHE_TO_DB: 1000 * 60, // раз 1 час в облако
+    INTERVAL_SAVE_CACHE_TO_DB: 1000 * 60 * 60 * 1, // раз 1 час в облако
     nicknames: {
       LENGTH: 10000,
       TTL_SEC: 60 * 60 * 24 * 90, // 90 суток
