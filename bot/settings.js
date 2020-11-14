@@ -45,7 +45,7 @@ const clientTmiSettings = {
     // 'taketv', // БАН
     'ogamingsc2',
     'twitchplayssc',
-    'wintergaming',
+    // 'wintergaming', // БАН
     // // en & other progamers
     'special_',
     'harstem',
@@ -75,14 +75,14 @@ const settings = {
     },
     predictions: {
       LENGTH: 3000,
-      TTL_SEC: 60 * 60 * 24 * 3, // 3 суток
+      TTL_SEC: 60 * 60 * 24 * 4, // суток
     },
     players_info: {
       LENGTH: 2000,
-      TTL_SEC: 60 * 60 * 24 * 3, // 3 суток
+      TTL_SEC: 60 * 60 * 24 * 4, // суток
     },
   },
-  INTERVAL_REQUEST_API_ALIGULAC: 1000,
+  INTERVAL_REQUEST_API_ALIGULAC: 100,
   INTERVAL_RESPONSE_IN_CHAT: 5000,
   botInfoMessage: {
     isShow: true,
