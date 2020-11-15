@@ -15,16 +15,15 @@ const clientTmiSettings = {
     password: process.env.CHAT_OAUTH, // установите CHAT_OAUTH в .env (получение https://twitchapps.com/tmi)
   },
   channels: [
-    // my
+    // ~~ my channels
     'risok',
     'aligulac_bot',
-    // // ru
+    // ~~ ru
     'sc2mc_ru',
-    // // // ru community
     '3dclanru',
-    // 'alex007sc2',
-    // // 'starladder_sc2_ru', // inactive stream
-    // // ru speaking progamers
+    // 'alex007sc2', // inactive stream
+    // 'starladder_sc2_ru', // inactive stream
+    // ~~ ru speaking progamers
     'dimaga',
     'kasmatuy',
     'pavelbratok',
@@ -34,24 +33,22 @@ const clientTmiSettings = {
     'zippzipper',
     // 'sc2vanya', // inactive stream
     'fallengersc2',
-    // // en
+    // ~~ en & other
     'starcraft',
-    // 'esl_sc2', // БАН
-    // 'esl_sc2b', // БАН
-    // // 'wesg_sc2', // inactive stream
-    // // en & other community
-    // 'wardiii', // БАН
+    // 'wesg_sc2', // inactive stream
     'indystarcraft',
-    // 'taketv', // БАН
     'ogamingsc2',
     'twitchplayssc',
-    // 'wintergaming', // БАН
-    // // en & other progamers
+    // ~~ en & other progamers
     'special_',
     'harstem',
     'heromarine',
     'ninasc2',
+    'sc2showtime',
+    'demuslim',
   ],
+  // ~~ banned
+  // 'esl_sc2', 'esl_sc2b', 'wardiii', 'wintergaming', 'taketv',
 };
 
 const ADMIN_USERNAME = 'risok';
@@ -71,7 +68,7 @@ const settings = {
     INTERVAL_SAVE_CACHE_TO_DB: 1000 * 60 * 60 * 1, // раз 1 час в облако
     nicknames: {
       LENGTH: 10000,
-      TTL_SEC: 60 * 60 * 24 * 90, // 90 суток
+      TTL_SEC: 60 * 60 * 24 * 90, // суток
     },
     predictions: {
       LENGTH: 3000,
