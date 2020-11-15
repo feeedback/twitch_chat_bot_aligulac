@@ -1,7 +1,7 @@
 import tmiJs from 'tmi.js';
 import botSettings from './bot/settings.js';
 import MemoryStore from './cache/memory_cache.js';
-import db from './cache/db.js';
+import * as db from './cache/db.js';
 import initAligulac from './api/aligulac_api.js';
 import botRun from './bot/bot.js';
 
@@ -43,9 +43,9 @@ const getFromDBChannelsLastMessageTime = async () => {
   return channelsLastMessageTime;
 };
 const cronSaveCacheToDB = async (intervalMs, cacheNicknames, cachePredictions, cachePlayerInfo) => {
-  await db.ops.findOneAndUpdate2(db.models.Nicknames, 'nicknames', cacheNicknames.store);
-  await db.ops.findOneAndUpdate2(db.models.Predictions, 'predictions', cachePredictions.store);
-  await db.ops.findOneAndUpdate2(db.models.PlayersInfo, 'players_info', cachePlayerInfo.store);
+  await db.ops.findOneAndUpdateNoWait(db.models.Nicknames, 'nicknames', cacheNicknames.store);
+  await db.ops.findOneAndUpdateNoWait(db.models.Predictions, 'predictions', cachePredictions.store);
+  await db.ops.findOneAndUpdateNoWait(db.models.PlayersInfo, 'players_info', cachePlayerInfo.store);
 
   setTimeout(() => {
     cronSaveCacheToDB(intervalMs, cacheNicknames, cachePredictions, cachePlayerInfo);
