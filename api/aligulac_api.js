@@ -163,7 +163,6 @@ const getStringFromInfoPlayerHtml = (document) => {
         .join(', ');
     },
     Team: (str) => `(${str}) `,
-    // Birthday: (str) => `${Math.floor((new Date() - new Date(str)) / (1000 * 60 * 60 * 24 * 365))} y.o. `,
     Birthday: (born) => `${dayjs().diff(born, 'years')} y.o. `,
     'Total earnings': (str) => {
       const dollars = Number(str.slice(1).replace(/,/g, ''));
@@ -197,7 +196,7 @@ const getStringFromInfoPlayerHtml = (document) => {
   const formStr = form.map(([title, percent]) => `${title}·${percent}`).join(' ');
 
   const rankOrInactive = inactive ? `Inactive since ${info['Last match']}` : info['Rank'];
-  const formOrInactive = (inactive || !formStr) ? `` : ` | form ${formStr}`;
+  const formOrInactive = inactive || !formStr ? `` : ` | form ${formStr}`;
   const earnedStr = info['Total earnings'] ? ` | earned ${info['Total earnings']}` : '';
   const matchesStr = info['Matches played'] ? ` | matches ${info['Matches played']}` : '';
   const str = `${info['Team']}${name} [${info['Race']}] ${info['Birthday']}| ${rankOrInactive}${matchesStr}${earnedStr}${formOrInactive}`;

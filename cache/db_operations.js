@@ -18,7 +18,7 @@ const findOne = async (Model, name) => {
 const findOneAndUpdate = async (Model, name, data = null) => {
   const filter = { name };
   const update = data === null ? { name } : { name, data };
-  const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+  const options = { upsert: true, new: true, overwrite: true, setDefaultsOnInsert: true };
   await Model.findOneAndUpdate(filter, update, options);
   // console.log('findOneAndUpdate newRecord :>> ', newRecord);
 };
@@ -26,16 +26,10 @@ const findOneAndUpdate = async (Model, name, data = null) => {
 const findOneAndUpdateNoWait = async (Model, name, data = null) => {
   const filter = { name };
   const update = data === null ? { name } : { name, data };
-  const options = { upsert: true, setDefaultsOnInsert: true };
+  const options = { upsert: true, overwrite: true, setDefaultsOnInsert: true };
   await Model.findOneAndUpdate(filter, update, options);
 };
 
-/**
- *
- *
- * @param {mongoose.Model} Model
- * @return {[mongoose.Document]} of records
- */
 const findAll = async (Model) => {
   const allRecords = await Model.find({});
   return allRecords;

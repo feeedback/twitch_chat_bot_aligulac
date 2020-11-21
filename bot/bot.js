@@ -170,7 +170,7 @@ const botRun = async (client, apiAligulac, COMMAND_CHECK_FN, botInfoMessage, db)
           client.say(channel, `${botInfoMessage.textMessage}`);
         } catch (error) {
           console.log(`${channel} — Не вышло написать о боте — ${error}`);
-        }        
+        }
 
         await db.ops.findOneAndUpdate(db.models.ChannelsBotLastMessage, channel);
       }
@@ -179,7 +179,7 @@ const botRun = async (client, apiAligulac, COMMAND_CHECK_FN, botInfoMessage, db)
 
   client.on('message', async (channel, tags, message, self) => {
     // Ignore echoed messages.
-    if (self) {
+    if (self || tags.username === client.opts.identity.username) {
       return;
     }
 
