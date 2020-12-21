@@ -22,6 +22,7 @@ const clientTmiSettings = {
     'sc2mc_ru',
     '3dclanru',
     'alex007sc2', // inactive stream
+    'kabyrage', // inactive stream
     // 'starladder_sc2_ru', // inactive stream
     // ~~ ru speaking progamers
     'dimaga',
