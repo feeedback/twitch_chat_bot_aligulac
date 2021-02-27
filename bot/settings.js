@@ -69,15 +69,15 @@ const settings = {
     INTERVAL_SAVE_CACHE_TO_DB: 1000 * 60 * 60 * 1, // раз 1 час в облако
     nicknames: {
       LENGTH: 10000,
-      TTL_SEC: 60 * 60 * 24 * 90, // суток
+      TTL_SEC: 60 * 60 * 24 * 180, // суток
     },
     predictions: {
       LENGTH: 3000,
-      TTL_SEC: 60 * 60 * 24 * 4, // суток
+      TTL_SEC: 60 * 60 * 1, // часов
     },
     players_info: {
       LENGTH: 2000,
-      TTL_SEC: 60 * 60 * 24 * 4, // суток
+      TTL_SEC: 60 * 60 * 24 * 1, // суток
     },
   },
   INTERVAL_REQUEST_API_ALIGULAC: 100,
