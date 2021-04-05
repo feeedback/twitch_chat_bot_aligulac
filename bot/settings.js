@@ -47,6 +47,7 @@ const clientTmiSettings = {
     'ninasc2',
     'sc2showtime',
     'demuslim',
+    'alexanderenki',
   ],
   // ~~ banned
   // 'esl_sc2', 'esl_sc2b', 'wardiii', 'wintergaming', 'taketv',
