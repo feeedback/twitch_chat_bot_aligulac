@@ -26,8 +26,9 @@ const getFromCache = (cache, twoKey = false) => async (key, requestFn, getDataFn
     cache.setItem(keyToCache, ItemValue);
     return ItemValue;
   } catch (error) {
-    const errorMsg = `ERROR: Aligulac server: ${error?.response?.status} ${error?.response?.statusText}`;
-    throw new Error(errorMsg);
+    // const errorMsg = `ERROR: Aligulac server: ${error?.response?.status} ${error?.response?.statusText}`;
+    // throw new Error(errorMsg);
+    return 'Aligulac server error';
   }
 };
 
