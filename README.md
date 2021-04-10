@@ -1,3 +1,6 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/f263ed131289f97d2a63/maintainability)](https://codeclimate.com/github/feeedback/twitch_chat_bot_aligulac/maintainability)
+[![wakatime](https://wakatime.com/badge/github/feeedback/twitch_chat_bot_aligulac.svg)](https://wakatime.com/badge/github/feeedback/twitch_chat_bot_aligulac)
+
 # Twitch чат-бот для использования сервиса Aligulac
 
 _\*статистика и предсказание исхода противостояний киберспортсменов по Starcraft 2_
