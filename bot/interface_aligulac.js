@@ -20,6 +20,7 @@ const getFromCache = (cache, twoKey = false) => async (key, requestFn, getDataFn
     const response = await requestFn(key);
     if (!response || response.status !== 200) {
       console.log('Aligulac server error');
+      return 'Aligulac server error';
     }
     const ItemValue = await getDataFn(response, key);
     cache.setItem(keyToCache, ItemValue);
