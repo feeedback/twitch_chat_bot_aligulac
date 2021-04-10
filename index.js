@@ -2,7 +2,7 @@ import tmiJs from 'tmi.js';
 import botSettings from './bot/settings.js';
 import MemoryStore from './cache/memory_cache.js';
 import * as db from './cache/db.js';
-import initAligulac from './api/aligulac_api.js';
+import initAligulac from './api/aligulac/aligulac_api.js';
 import botRun from './bot/bot.js';
 
 const { clientTmiSettings, COMMAND_CHECK_FN, cache, botInfoMessage } = botSettings;

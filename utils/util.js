@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 
-const now = () => dayjs().format('h:mm:ss');
-const nowMs = () => dayjs().format('HH:mm:ss,SSS');
+export const now = () => dayjs().format('h:mm:ss');
+export const nowMs = () => dayjs().format('HH:mm:ss,SSS');
 
-const recognizeCommandFromMessageText = (message) => {
+export const recognizeCommandFromMessageText = (message) => {
   const lowerCaseMessage = message.trim().toLowerCase();
   const regex = /!(.*?)$/gm;
   const fullMessageWithCommand = regex.exec(lowerCaseMessage);
@@ -21,9 +21,23 @@ const recognizeCommandFromMessageText = (message) => {
   return false;
 };
 
-const channelFormat = (str) => {
+export const channelFormat = (str) => {
   const channel = str.toLowerCase();
   return channel[0] === '#' ? channel : `#${channel}`;
 };
 
-export { recognizeCommandFromMessageText, channelFormat, now, nowMs };
+export const formatName = (name) => String(name).trim();
+
+export const isGoodFormatPlayerName = (name) => {
+  const regexpPattern = /[^\w-]/g;
+
+  if (regexpPattern.test(name)) {
+    console.log(`INFO: В имени игрока не должно быть символов кроме англ. букв, цифр, -, _: "${name}"`);
+    return null;
+  }
+  if (name.length < 2) {
+    console.log(`INFO: Длина имени игрока должна быть 2 и более символов: "${name}"`);
+    return null;
+  }
+  return true;
+};
