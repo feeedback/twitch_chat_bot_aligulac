@@ -41,3 +41,5 @@ export const isGoodFormatPlayerName = (name) => {
   }
   return true;
 };
+
+export const getPercentInt = (a, b) => Math.floor((a / b) * 100);

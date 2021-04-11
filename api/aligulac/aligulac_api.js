@@ -1,13 +1,56 @@
 /* eslint-disable consistent-return */
 import axios from 'axios';
+import { URL } from 'url';
 import { getStringFromPredictionHtml, getStringFromInfoPlayerHtml } from './parse_dom.js';
+// import { getPercentInt } from '../../utils/util.js';
 
-const apiAligulac = {
-  getIdByQueryName: (queryName) => `http://aligulac.com/search/json/?search_for=players&q=${queryName}`,
-  getPredictionByIds: (id1, id2) => `http://aligulac.com/inference/match/?bo=1&ps=${id1}%2C${id2}`,
-  // getPlayerInfoByIdAndName: (id, name) => `http://aligulac.com/players/${id}-${name}`,
-  getPlayerInfoById: (id) => `http://aligulac.com/players/${id}`,
+const aligulacBaseUrl = 'http://aligulac.com';
+const aligulacAPI = {
+  getIdByQueryName: (queryName) => {
+    const url = new URL('/search/json/?search_for=players', aligulacBaseUrl);
+    url.searchParams.set('q', queryName);
+
+    return url;
+  },
+  getPredictionByIds: (id1, id2, bestOf = 1) => {
+    // browser api  @deprecated
+    const url = new URL('/inference/match/', aligulacBaseUrl);
+    url.searchParams.set('bo', bestOf);
+    url.searchParams.set('ps', [id1, id2]);
+
+    return url;
+  },
+  // getPlayerInfoByIdAndName: (id, name) => `${this.baseURL}/players/${id}-${name}`, // browser api  @deprecated
+  getPlayerInfoById: (id) => new URL(`/players/${id}`, aligulacBaseUrl), // browser api  @deprecated
+  // getPlayerInfoByIdAPI: (id) => new URL(`/api/v1/player/${id}`, aligulacBaseUrl),
 };
+
+// (Cascade) SKillous [P] 19 y.o. | #29 World, #12 Non-KR, #1 RU | matches 1399 | earned $19k | form vP 57% vT 55% vZ 72%
+// const parsePlayerData = {
+//   birthday: ({ birthday }) => birthday,
+//   country: ({ country }) => country,
+//   nickname: ({ tag }) => tag,
+//   // name: ({ name }) => name,
+//   // romanized_name: ({ romanized_name: romanizedName }) => romanizedName,
+//   race: ({ race }) => race,
+//   totalEarnings: ({ total_earnings: earning }) => earning,
+//   teamName: ({ current_teams: [team] }) => team.name,
+//   form: ({
+//     form: {
+//       P: [vPW = 0, vPL = 0],
+//       T: [vTW = 0, vTL = 0],
+//       Z: [vZW = 0, vZL = 0],
+//     },
+//   }) => ({
+//     // race: [winCount, loseCount] // EX:   P: [38, 23], T: [21, 20], Z: [28, 11], total: [87, 54]
+//     vP: !vPW && !vPL ? null : getPercentInt(vPW, vPW + vPL),
+//     vT: !vTW && !vTL ? null : getPercentInt(vTW, vTW + vTL),
+//     vZ: !vZW && !vZL ? null : getPercentInt(vZW, vZW + vZL),
+//   }),
+//   ratingId: ({ current_rating: { id } }) => id,
+//   // rank ?? top World => api rating/{ratingId} => position
+//   // matches playing ???
+// };
 
 const getPlayerIdFromData = (data, queryPlayerName) => {
   try {
@@ -28,7 +71,7 @@ const getPlayerIdFromData = (data, queryPlayerName) => {
 const getPlayerAligulacIdByName = async (playerName, getFromCacheNicknames) => {
   const playerId = await getFromCacheNicknames(
     playerName,
-    async (name) => axios.get(apiAligulac.getIdByQueryName(name)),
+    async (name) => axios.get(aligulacAPI.getIdByQueryName(name)),
     (responseJson, name) => getPlayerIdFromData(responseJson.data, name)
   );
 
@@ -50,7 +93,7 @@ const getPredictionGameString = async (getFromCacheNickname, getFromCachePredict
 
     const str = await getFromCachePrediction(
       { id1: p1Id, id2: p2Id },
-      async ({ id1, id2 }) => axios.get(apiAligulac.getPredictionByIds(id1, id2)),
+      async ({ id1, id2 }) => axios.get(aligulacAPI.getPredictionByIds(id1, id2)),
       (responseHtml) => getStringFromPredictionHtml(responseHtml.data)
     );
 
@@ -69,7 +112,7 @@ const getPlayerInfoString = async (getFromCacheNickname, getFromCachePlayerInfo,
 
     const str = await getFromCachePlayerInfo(
       p1Id,
-      async (id1) => axios.get(apiAligulac.getPlayerInfoById(id1)),
+      async (id1) => axios.get(aligulacAPI.getPlayerInfoById(id1)),
       (responseHtml) => getStringFromInfoPlayerHtml(responseHtml.data)
     );
 
