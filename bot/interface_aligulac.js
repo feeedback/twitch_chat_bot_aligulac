@@ -73,7 +73,7 @@ const requestPlayerInfo = (getFromCacheNickname, getFromCachePlayerInfo) => asyn
       getFromCachePlayerInfo,
       name1F
     );
-    console.log({ resultStr });
+    // console.log({ resultStr });
     return resultStr;
   } catch (error) {
     throw new Error(error);
