@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 import _axios from 'axios';
 import { URL } from 'url';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import SocksAgent from 'axios-socks5-agent';
 import { getStringFromPredictionHtml, getStringFromInfoPlayerHtml } from './parse_dom.js';
 // import { getPercentInt } from '../../utils/util.js';
