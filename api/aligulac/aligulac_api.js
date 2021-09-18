@@ -1,8 +1,18 @@
 /* eslint-disable consistent-return */
-import axios from 'axios';
+import _axios from 'axios';
 import { URL } from 'url';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import SocksAgent from 'axios-socks5-agent';
 import { getStringFromPredictionHtml, getStringFromInfoPlayerHtml } from './parse_dom.js';
 // import { getPercentInt } from '../../utils/util.js';
+// TEST
+let axios = _axios.create({ timeout: 6000 });
+
+if (process.env.NODE_ENV === 'development') {
+  const getAgents = (port) => new SocksAgent({ agentOptions: { keepAlive: true }, port });
+  const torAxios = (port) => _axios.create({ ...getAgents(port), timeout: 6000 });
+  axios = torAxios(9050);
+}
 
 const aligulacBaseUrl = 'http://aligulac.com';
 const aligulacAPI = {
@@ -71,7 +81,7 @@ const getPlayerIdFromData = (data, queryPlayerName) => {
 const getPlayerAligulacIdByName = async (playerName, getFromCacheNicknames) => {
   const playerId = await getFromCacheNicknames(
     playerName,
-    async (name) => axios.get(aligulacAPI.getIdByQueryName(name)),
+    async (name) => axios.get(aligulacAPI.getIdByQueryName(name).toString()),
     (responseJson, name) => getPlayerIdFromData(responseJson.data, name)
   );
 
@@ -93,7 +103,7 @@ const getPredictionGameString = async (getFromCacheNickname, getFromCachePredict
 
     const str = await getFromCachePrediction(
       { id1: p1Id, id2: p2Id },
-      async ({ id1, id2 }) => axios.get(aligulacAPI.getPredictionByIds(id1, id2)),
+      async ({ id1, id2 }) => axios.get(aligulacAPI.getPredictionByIds(id1, id2).toString()),
       (responseHtml) => getStringFromPredictionHtml(responseHtml.data)
     );
 
@@ -106,16 +116,15 @@ const getPredictionGameString = async (getFromCacheNickname, getFromCachePredict
 const getPlayerInfoString = async (getFromCacheNickname, getFromCachePlayerInfo, p1Name) => {
   try {
     const p1Id = await getPlayerAligulacIdByName(p1Name, getFromCacheNickname);
-    if (p1Id) {
+    if (!p1Id) {
       return;
     }
 
     const str = await getFromCachePlayerInfo(
       p1Id,
-      async (id1) => axios.get(aligulacAPI.getPlayerInfoById(id1)),
+      async (id1) => axios.get(aligulacAPI.getPlayerInfoById(id1).toString()),
       (responseHtml) => getStringFromInfoPlayerHtml(responseHtml.data)
     );
-
     return str;
   } catch (error) {
     throw new Error(error);

@@ -15,16 +15,17 @@
   "author": "Alexander R. (https://risok.now.sh)",
   "license": "GPL-2.0",
   "dependencies": {
-    "axios": "^0.21.0",
-    "dayjs": "^1.9.6",
-    "dotenv": "^8.2.0",
-    "jsdom": "^16.4.0",
-    "mongoose": "^5.10.14",
+    "axios": "^0.21.4",
+    "dayjs": "^1.10.7",
+    "dotenv": "^8.6.0",
+    "jsdom": "^16.7.0",
+    "mongoose": "^5.13.9",
     "nanoid": "^3.1.16",
     "tmi.js": "^1.5.0"
   },
   "devDependencies": {
-    "@types/tmi.js": "^1.4.2"
+    "@types/tmi.js": "^1.4.2",
+    "axios-socks5-agent": "^1.0.1"
   },
   "engines": {
     "node": "14.x"

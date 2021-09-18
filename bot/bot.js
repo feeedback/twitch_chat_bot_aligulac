@@ -39,57 +39,58 @@ const leaveFromChannel = async (client, channel) => {
   }
 };
 
-const createRequestFnChat = (client) => async ({ channel, username, name1, name2 = null, resStr }) => {
-  try {
-    const interval = Math.round(INTERVAL_RESPONSE_IN_CHAT / 1000);
+const createRequestFnChat =
+  (client) =>
+  async ({ channel, username, name1, name2 = null, resStr }) => {
+    try {
+      const interval = Math.round(INTERVAL_RESPONSE_IN_CHAT / 1000);
 
-    let logStr = `${channel} — @${username} — (${name1} vs ${name2}) — |1 per ${interval}s| ответ возвращён в чат`;
-    if (name2 === null) {
-      logStr = `${channel} — @${username} — "${name1}" — |1 per ${interval}s| ответ возвращён в чат`;
+      let logStr = `${channel} — @${username} — (${name1} vs ${name2}) — |1 per ${interval}s| ответ возвращён в чат`;
+      if (name2 === null) {
+        logStr = `${channel} — @${username} — "${name1}" — |1 per ${interval}s| ответ возвращён в чат`;
+      }
+
+      console.log(logStr);
+      client.say(channel, `@${username} ${resStr}`);
+    } catch (error) {
+      console.log('createRequestFnChat error');
     }
+  };
 
-    console.log(logStr);
-    client.say(channel, `@${username} ${resStr}`);
-  } catch (error) {
-    console.log('createRequestFnChat error');
-  }
-};
-
-const createRequestFnAligulacPrediction = (_getAligulacPrediction) => async ({
-  channel,
-  username,
-  name1,
-  name2,
-}) => {
-  console.log(
-    `${channel} — @${username} — (${name1} vs ${name2}) — |1 per ${Math.round(
-      INTERVAL_REQUEST_API_ALIGULAC / 1000
-    )}s| выполняется запрос к Алигулак`
-  );
-  try {
-    const predictionStr = await _getAligulacPrediction(name1, name2);
+const createRequestFnAligulacPrediction =
+  (_getAligulacPrediction) =>
+  async ({ channel, username, name1, name2 }) => {
     console.log(
-      `${channel} — @${username} — (${name1} vs ${name2}) — ответ получен от Алигулак: ${predictionStr}`
+      `${channel} — @${username} — (${name1} vs ${name2}) — |1 per ${Math.round(
+        INTERVAL_REQUEST_API_ALIGULAC / 1000
+      )}s| выполняется запрос к Алигулак`
     );
-    return predictionStr;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-const createRequestFnAligulacPlayer = (_getAligulacPlayer) => async ({ channel, username, name1 }) => {
-  console.log(
-    `${channel} — @${username} — "${name1}" — |1 per ${Math.round(
-      INTERVAL_REQUEST_API_ALIGULAC / 1000
-    )}s| выполняется запрос к Алигулак`
-  );
-  try {
-    const playerInfoStr = await _getAligulacPlayer(name1);
-    console.log(`${channel} — @${username} — "${name1}" — ответ получен от Алигулак: ${playerInfoStr}`);
-    return playerInfoStr;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
+    try {
+      const predictionStr = await _getAligulacPrediction(name1, name2);
+      console.log(
+        `${channel} — @${username} — (${name1} vs ${name2}) — ответ получен от Алигулак: ${predictionStr}`
+      );
+      return predictionStr;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+const createRequestFnAligulacPlayer =
+  (_getAligulacPlayer) =>
+  async ({ channel, username, name1 }) => {
+    console.log(
+      `${channel} — @${username} — "${name1}" — |1 per ${Math.round(
+        INTERVAL_REQUEST_API_ALIGULAC / 1000
+      )}s| выполняется запрос к Алигулак`
+    );
+    try {
+      const playerInfoStr = await _getAligulacPlayer(name1);
+      console.log(`${channel} — @${username} — "${name1}" — ответ получен от Алигулак: ${playerInfoStr}`);
+      return playerInfoStr;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
 const queueAligulac = [];
 const queueChat = {};

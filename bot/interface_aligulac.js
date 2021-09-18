@@ -1,36 +1,41 @@
 import { formatName, isGoodFormatPlayerName } from '../utils/util.js';
 import aligulacAPI from '../api/aligulac/aligulac_api.js';
 
-const getFromCache = (cache, twoKey = false) => async (key, requestFn, getDataFn) => {
-  const keyToCache = typeof key !== 'string' ? JSON.stringify(key) : key;
-  const itemValue = cache.smartGetItem(keyToCache); // check, check ttl, renew, return
-  if (itemValue) {
-    return itemValue;
-  }
-  if (twoKey) {
-    // Если в кэше есть результат с другим порядком игроков - отдаём его
-    const swapArgumentsKey = JSON.stringify({ id1: key.id2, id2: key.id1 });
-    const itemValueSwap = cache.smartGetItem(swapArgumentsKey);
-    if (itemValueSwap) {
-      return itemValueSwap;
+const getFromCache =
+  (cache, twoKey = false) =>
+  async (key, requestFn, getDataFn) => {
+    const keyToCache = typeof key !== 'string' ? JSON.stringify(key) : key;
+    const itemValue = cache.smartGetItem(keyToCache); // check, check ttl, renew, return
+    if (itemValue) {
+      return itemValue;
     }
-  }
+    if (twoKey) {
+      // Если в кэше есть результат с другим порядком игроков - отдаём его
+      const swapArgumentsKey = JSON.stringify({ id1: key.id2, id2: key.id1 });
+      const itemValueSwap = cache.smartGetItem(swapArgumentsKey);
+      if (itemValueSwap) {
+        return itemValueSwap;
+      }
+    }
 
-  try {
-    const response = await requestFn(key);
-    if (!response || response.status !== 200) {
-      console.log('Aligulac server error');
+    try {
+      const response = await requestFn(key);
+      if (!response || response.status !== 200) {
+        console.log('Aligulac server error');
+        console.log('response', response);
+        return 'Aligulac server error';
+      }
+      const ItemValue = await getDataFn(response, key);
+      cache.setItem(keyToCache, ItemValue);
+      return ItemValue;
+    } catch (error) {
+      const errorMsg = `ERROR: Aligulac server: ${error?.response?.status} ${error?.response?.statusText}`;
+      // throw new Error(errorMsg);
+      console.log(errorMsg);
+      console.log(error);
       return 'Aligulac server error';
     }
-    const ItemValue = await getDataFn(response, key);
-    cache.setItem(keyToCache, ItemValue);
-    return ItemValue;
-  } catch (error) {
-    // const errorMsg = `ERROR: Aligulac server: ${error?.response?.status} ${error?.response?.statusText}`;
-    // throw new Error(errorMsg);
-    return 'Aligulac server error';
-  }
-};
+  };
 
 const requestPrediction = (getFromCacheNickname, getFromCachePrediction) => async (p1Name, p2Name) => {
   const name1F = formatName(p1Name);
@@ -68,6 +73,7 @@ const requestPlayerInfo = (getFromCacheNickname, getFromCachePlayerInfo) => asyn
       getFromCachePlayerInfo,
       name1F
     );
+    console.log({ resultStr });
     return resultStr;
   } catch (error) {
     throw new Error(error);

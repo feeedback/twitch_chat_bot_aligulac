@@ -53,6 +53,10 @@ const clientTmiSettings = {
   // 'esl_sc2', 'esl_sc2b', 'wardiii', 'wintergaming', 'taketv',
 };
 
+if (process.env.NODE_ENV === 'development') {
+  clientTmiSettings.channels = ['risok'];
+}
+
 const ADMIN_USERNAME = 'risok';
 
 const settings = {
