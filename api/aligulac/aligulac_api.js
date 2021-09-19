@@ -5,11 +5,11 @@ import SocksAgent from 'axios-socks5-agent';
 import { getStringFromPredictionHtml, getStringFromInfoPlayerHtml } from './parse_dom.js';
 // import { getPercentInt } from '../../utils/util.js';
 // TEST
-let axios = _axios.create({ timeout: 6000 });
+let axios = _axios.create({ timeout: 15000 });
 
 if (process.env.NODE_ENV === 'development') {
   const getAgents = (port) => new SocksAgent({ agentOptions: { keepAlive: true }, port });
-  const torAxios = (port) => _axios.create({ ...getAgents(port), timeout: 6000 });
+  const torAxios = (port) => _axios.create({ ...getAgents(port), timeout: 10000 });
   axios = torAxios(9050);
 }
 
