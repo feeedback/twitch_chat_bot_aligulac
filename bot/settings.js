@@ -64,8 +64,7 @@ const settings = {
   COMMAND_CHECK_FN: {
     isAligulacPrediction: (commandStr) => commandStr.startsWith('alig') || commandStr.startsWith('алиг'),
 
-    isAddChannelToBot: (commandStr, username) =>
-      commandStr === 'add_channel_to_bot' && username === ADMIN_USERNAME,
+    isAddChannelToBot: (commandStr, username) => commandStr === 'add_channel_to_bot' && username === ADMIN_USERNAME,
 
     isRemoveChannelFromBot: (commandStr, username) =>
       commandStr === 'remove_channel_from_bot' && username === ADMIN_USERNAME,
@@ -86,7 +85,7 @@ const settings = {
     },
   },
   INTERVAL_REQUEST_API_ALIGULAC: 100,
-  INTERVAL_RESPONSE_IN_CHAT: 5000,
+  INTERVAL_RESPONSE_IN_CHAT: 30000,
   botInfoMessage: {
     isShow: true,
     textMessage: 'Hi. Player info: !alig name, prediction: !alig name1 name2',
