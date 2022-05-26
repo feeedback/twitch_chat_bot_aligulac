@@ -20,6 +20,7 @@ const clientTmiSettings = {
     'aligulac_bot',
     // ~~ ru
     'sc2mc_ru',
+    'starcraft2mc',
     '3dclanru',
     'alex007sc2', // inactive stream
     'kabyrage', // inactive stream
